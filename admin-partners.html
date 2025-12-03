@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Management - Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Sora:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://he2.s3.us-west-2.amazonaws.com/files/20251114_172508_df6aff2f-ce2c-4498-9788-9af01fd5e2b1_Helium%20Logo%20black.png" alt="Helium Logo" class="sidebar-logo">
+                
+                <div class="sidebar-user">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <h4>Admin User</h4>
+                        <p>Administrator</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item" data-page="admin-dashboard.html">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i data-lucide="users"></i>
+                        <span>Partners</span>
+                    </div>
+                    <div class="nav-item" data-page="admin-pricing.html">
+                        <i data-lucide="dollar-sign"></i>
+                        <span>Price Lists</span>
+                    </div>
+                    <div class="nav-item" data-page="admin-proposals.html">
+                        <i data-lucide="file-text"></i>
+                        <span>Proposals</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Settings</div>
+                    <div class="nav-item">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </div>
+                    <div class="nav-item">
+                        <i data-lucide="help-circle"></i>
+                        <span>Help & Support</span>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="nav-item" onclick="logout()">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div class="page-header-top">
+                    <div>
+                        <h1 class="page-title">Partner Management</h1>
+                        <p class="page-description">Manage your partner accounts and access credentials</p>
+                    </div>
+                    <button class="btn-primary" onclick="addPartner()">
+                        <i data-lucide="user-plus"></i>
+                        Add Partner
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Partners Grid -->
+            <div class="grid grid-3">
+                <div class="bento-card">
+                    <div class="bento-card-header">
+                        <div>
+                            <h3 class="bento-card-title">John Doe</h3>
+                            <p style="color: var(--color-gray-600); font-size: 0.875rem; margin: 0;">TechCorp Inc.</p>
+                        </div>
+                        <span class="badge badge-success">Active</span>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">john.doe@techcorp.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="key" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">PIN: 1234</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                            <i data-lucide="calendar" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">Joined: Dec 1, 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-xs); padding-top: var(--spacing-md); border-top: 1px solid var(--color-gray-200);">
+                        <button class="btn-ghost btn-sm" onclick="editPartner(1)">
+                            <i data-lucide="edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="window.location.href='admin-pricing.html?partner=1'">
+                            <i data-lucide="dollar-sign"></i>
+                            Pricing
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="deletePartner(1)" style="color: var(--color-accent);">
+                            <i data-lucide="trash-2"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bento-card">
+                    <div class="bento-card-header">
+                        <div>
+                            <h3 class="bento-card-title">Jane Smith</h3>
+                            <p style="color: var(--color-gray-600); font-size: 0.875rem; margin: 0;">StartupXYZ</p>
+                        </div>
+                        <span class="badge badge-success">Active</span>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">jane.smith@startupxyz.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="key" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">PIN: 5678</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                            <i data-lucide="calendar" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">Joined: Nov 28, 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-xs); padding-top: var(--spacing-md); border-top: 1px solid var(--color-gray-200);">
+                        <button class="btn-ghost btn-sm" onclick="editPartner(2)">
+                            <i data-lucide="edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="window.location.href='admin-pricing.html?partner=2'">
+                            <i data-lucide="dollar-sign"></i>
+                            Pricing
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="deletePartner(2)" style="color: var(--color-accent);">
+                            <i data-lucide="trash-2"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bento-card">
+                    <div class="bento-card-header">
+                        <div>
+                            <h3 class="bento-card-title">Mike Johnson</h3>
+                            <p style="color: var(--color-gray-600); font-size: 0.875rem; margin: 0;">Enterprise Solutions</p>
+                        </div>
+                        <span class="badge badge-warning">Pending</span>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">mike.j@enterprise.com</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-xs);">
+                            <i data-lucide="key" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">PIN: 9012</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                            <i data-lucide="calendar" style="width: 16px; height: 16px; color: var(--color-gray-500);"></i>
+                            <span style="font-size: 0.875rem; color: var(--color-gray-600);">Joined: Nov 25, 2024</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--spacing-xs); padding-top: var(--spacing-md); border-top: 1px solid var(--color-gray-200);">
+                        <button class="btn-ghost btn-sm" onclick="editPartner(3)">
+                            <i data-lucide="edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="window.location.href='admin-pricing.html?partner=3'">
+                            <i data-lucide="dollar-sign"></i>
+                            Pricing
+                        </button>
+                        <button class="btn-ghost btn-sm" onclick="deletePartner(3)" style="color: var(--color-accent);">
+                            <i data-lucide="trash-2"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add Partner Modal -->
+    <div id="addPartnerModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Partner</h2>
+                <button class="modal-close" onclick="closeModal('addPartnerModal')">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="partnerForm">
+                    <div class="form-group">
+                        <label class="form-label">Partner Name</label>
+                        <input type="text" class="form-input" name="name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        <input type="text" class="form-input" name="company" placeholder="TechCorp Inc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" name="email" placeholder="john.doe@techcorp.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">4-Digit PIN</label>
+                        <input type="text" class="form-input" name="pin" placeholder="1234" maxlength="4" pattern="[0-9]{4}" required>
+                        <p style="font-size: 0.875rem; color: var(--color-gray-600); margin-top: var(--spacing-xs);">
+                            This PIN will be used by the partner to access their portal
+                        </p>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('addPartnerModal')">Cancel</button>
+                <button class="btn-primary" onclick="savePartner()">
+                    <i data-lucide="save"></i>
+                    Save Partner
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

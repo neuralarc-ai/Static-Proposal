@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price List Management - Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Sora:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://he2.s3.us-west-2.amazonaws.com/files/20251114_172508_df6aff2f-ce2c-4498-9788-9af01fd5e2b1_Helium%20Logo%20black.png" alt="Helium Logo" class="sidebar-logo">
+                
+                <div class="sidebar-user">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <h4>Admin User</h4>
+                        <p>Administrator</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item" data-page="admin-dashboard.html">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item" data-page="admin-partners.html">
+                        <i data-lucide="users"></i>
+                        <span>Partners</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i data-lucide="dollar-sign"></i>
+                        <span>Price Lists</span>
+                    </div>
+                    <div class="nav-item" data-page="admin-proposals.html">
+                        <i data-lucide="file-text"></i>
+                        <span>Proposals</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Settings</div>
+                    <div class="nav-item">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </div>
+                    <div class="nav-item">
+                        <i data-lucide="help-circle"></i>
+                        <span>Help & Support</span>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="nav-item" onclick="logout()">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div class="page-header-top">
+                    <div>
+                        <h1 class="page-title">Price List Management</h1>
+                        <p class="page-description">Create and manage personalized pricing for each partner</p>
+                    </div>
+                    <button class="btn-primary" onclick="addPriceList()">
+                        <i data-lucide="plus-circle"></i>
+                        Create Price List
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Price Lists by Partner -->
+            <div class="grid grid-2">
+                <div class="bento-card">
+                    <div class="bento-card-header">
+                        <div>
+                            <h3 class="bento-card-title">John Doe - TechCorp Inc.</h3>
+                            <p style="color: var(--color-gray-600); font-size: 0.875rem; margin: 0;">Custom pricing configuration</p>
+                        </div>
+                        <button class="btn-ghost btn-sm" onclick="editPriceList(1)">
+                            <i data-lucide="edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Rate</th>
+                                    <th>Currency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+                                            <span>Helium License (Monthly)</span>
+                                        </div>
+                                    </td>
+                                    <td>$299</td>
+                                    <td>USD</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+                                            <span>Helium License (Annual)</span>
+                                        </div>
+                                    </td>
+                                    <td>$2,990</td>
+                                    <td>USD</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="code" style="width: 16px; height: 16px;"></i>
+                                            <span>Development Rate (Per Hour)</span>
+                                        </div>
+                                    </td>
+                                    <td>$150</td>
+                                    <td>USD</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="rocket" style="width: 16px; height: 16px;"></i>
+                                            <span>Deployment (One-time)</span>
+                                        </div>
+                                    </td>
+                                    <td>$500</td>
+                                    <td>USD</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="wrench" style="width: 16px; height: 16px;"></i>
+                                            <span>Maintenance (Monthly)</span>
+                                        </div>
+                                    </td>
+                                    <td>$200</td>
+                                    <td>USD</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="bento-card">
+                    <div class="bento-card-header">
+                        <div>
+                            <h3 class="bento-card-title">Jane Smith - StartupXYZ</h3>
+                            <p style="color: var(--color-gray-600); font-size: 0.875rem; margin: 0;">Custom pricing configuration</p>
+                        </div>
+                        <button class="btn-ghost btn-sm" onclick="editPriceList(2)">
+                            <i data-lucide="edit"></i>
+                            Edit
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Rate</th>
+                                    <th>Currency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+                                            <span>Helium License (Monthly)</span>
+                                        </div>
+                                    </td>
+                                    <td>₹24,900</td>
+                                    <td>INR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
+                                            <span>Helium License (Annual)</span>
+                                        </div>
+                                    </td>
+                                    <td>₹2,49,000</td>
+                                    <td>INR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="code" style="width: 16px; height: 16px;"></i>
+                                            <span>Development Rate (Per Hour)</span>
+                                        </div>
+                                    </td>
+                                    <td>₹12,500</td>
+                                    <td>INR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="rocket" style="width: 16px; height: 16px;"></i>
+                                            <span>Deployment (One-time)</span>
+                                        </div>
+                                    </td>
+                                    <td>₹41,650</td>
+                                    <td>INR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                                            <i data-lucide="wrench" style="width: 16px; height: 16px;"></i>
+                                            <span>Maintenance (Monthly)</span>
+                                        </div>
+                                    </td>
+                                    <td>₹16,660</td>
+                                    <td>INR</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add/Edit Price List Modal -->
+    <div id="addPriceListModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Price List</h2>
+                <button class="modal-close" onclick="closeModal('addPriceListModal')">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="priceListForm">
+                    <div class="form-group">
+                        <label class="form-label">Select Partner</label>
+                        <select class="form-select" name="partner" required>
+                            <option value="">Choose a partner...</option>
+                            <option value="1">John Doe - TechCorp Inc.</option>
+                            <option value="2">Jane Smith - StartupXYZ</option>
+                            <option value="3">Mike Johnson - Enterprise Solutions</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select" name="currency" required>
+                            <option value="USD">USD - US Dollar</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="EUR">EUR - Euro</option>
+                            <option value="GBP">GBP - British Pound</option>
+                        </select>
+                    </div>
+                    
+                    <div style="border-top: 1px solid var(--color-gray-200); padding-top: var(--spacing-lg); margin-top: var(--spacing-lg);">
+                        <h4 style="margin-bottom: var(--spacing-md);">Pricing Items</h4>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Helium License (Monthly)</label>
+                                <input type="number" class="form-input" name="license_monthly" placeholder="299" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Helium License (Annual)</label>
+                                <input type="number" class="form-input" name="license_annual" placeholder="2990" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Development Rate (Per Hour)</label>
+                                <input type="number" class="form-input" name="dev_rate" placeholder="150" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Deployment Cost (One-time)</label>
+                                <input type="number" class="form-input" name="deployment" placeholder="500" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Maintenance Cost (Monthly)</label>
+                            <input type="number" class="form-input" name="maintenance" placeholder="200" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('addPriceListModal')">Cancel</button>
+                <button class="btn-primary" onclick="savePriceList()">
+                    <i data-lucide="save"></i>
+                    Save Price List
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

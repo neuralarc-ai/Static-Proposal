@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Portal - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Sora:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-container">
+                <img src="https://he2.s3.us-west-2.amazonaws.com/files/20251114_172508_df6aff2f-ce2c-4498-9788-9af01fd5e2b1_Helium%20Logo%20black.png" alt="Helium Logo" class="logo">
+            </div>
+            
+            <h1>Partner Portal</h1>
+            <p class="subtitle">Enter your 4-digit PIN to access your dashboard</p>
+            
+            <div class="role-selector">
+                <button class="role-btn active" data-role="partner">
+                    <i data-lucide="users"></i>
+                    Partner Login
+                </button>
+                <button class="role-btn" data-role="admin">
+                    <i data-lucide="shield"></i>
+                    Admin Login
+                </button>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="pin-input-container">
+                    <input type="password" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-digit" pattern="[0-9]" inputmode="numeric">
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    <span>Access Portal</span>
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Need assistance? <a href="mailto:support@neuralarc.ai">Contact Support</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

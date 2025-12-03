@@ -1,0 +1,219 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Dashboard - Partner Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Sora:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://he2.s3.us-west-2.amazonaws.com/files/20251114_172508_df6aff2f-ce2c-4498-9788-9af01fd5e2b1_Helium%20Logo%20black.png" alt="Helium Logo" class="sidebar-logo">
+                
+                <div class="sidebar-user">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-info">
+                        <h4>John Doe</h4>
+                        <p>TechCorp Inc.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item active">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item">
+                        <i data-lucide="file-text"></i>
+                        <span>My Proposals</span>
+                    </div>
+                    <div class="nav-item">
+                        <i data-lucide="dollar-sign"></i>
+                        <span>My Pricing</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Support</div>
+                    <div class="nav-item">
+                        <i data-lucide="help-circle"></i>
+                        <span>Help & Support</span>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="nav-item" onclick="logout()">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <div class="page-header-top">
+                    <div>
+                        <h1 class="page-title">Welcome back, John!</h1>
+                        <p class="page-description">Create proposals and manage your client projects</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Interface -->
+            <div class="bento-card mb-4">
+                <div class="bento-card-header">
+                    <h3 class="bento-card-title">Create New Proposal</h3>
+                    <div style="display: flex; align-items: center; gap: var(--spacing-xs); color: var(--color-gray-600); font-size: 0.875rem;">
+                        <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+                        <span>AI-Powered Proposal Generation</span>
+                    </div>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message assistant">
+                            <div class="chat-avatar">AI</div>
+                            <div class="chat-bubble">
+                                Hello! I am here to help you create professional proposals. Tell me about your project requirements, and I will generate a comprehensive proposal with pricing based on your custom rate card.
+                                
+                                You can include details like:
+                                • Project scope and objectives
+                                • Timeline and deliverables
+                                • Technology requirements
+                                • Team size and resources needed
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <form id="chatForm" class="chat-input-wrapper">
+                            <textarea 
+                                id="chatInput" 
+                                class="chat-input" 
+                                placeholder="Describe your project requirements..."
+                                rows="1"
+                            ></textarea>
+                            <button type="submit" class="btn-primary">
+                                <i data-lucide="send"></i>
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Previous Proposals -->
+            <div class="bento-card">
+                <div class="bento-card-header">
+                    <h3 class="bento-card-title">Your Previous Proposals</h3>
+                    <span class="badge badge-info">3 Total</span>
+                </div>
+                
+                <div class="proposal-grid">
+                    <div class="proposal-card" onclick="viewProposal(1)">
+                        <div class="proposal-header">
+                            <h4 class="proposal-title">E-commerce Platform Development</h4>
+                            <span class="badge badge-warning">Pending</span>
+                        </div>
+                        
+                        <div class="proposal-meta">
+                            <div class="proposal-meta-item">
+                                <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+                                <span>Created: Dec 1, 2024</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                                <span>Timeline: 6 months</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                                <span>Client: RetailCo</span>
+                            </div>
+                        </div>
+                        
+                        <div class="proposal-footer">
+                            <div class="proposal-value">$45,000</div>
+                            <button class="btn-ghost btn-sm">
+                                <i data-lucide="eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="proposal-card" onclick="viewProposal(2)">
+                        <div class="proposal-header">
+                            <h4 class="proposal-title">CRM System Integration</h4>
+                            <span class="badge badge-info">Draft</span>
+                        </div>
+                        
+                        <div class="proposal-meta">
+                            <div class="proposal-meta-item">
+                                <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+                                <span>Created: Nov 28, 2024</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                                <span>Timeline: 3 months</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                                <span>Client: SalesPro Inc.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="proposal-footer">
+                            <div class="proposal-value">$28,000</div>
+                            <button class="btn-ghost btn-sm">
+                                <i data-lucide="eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="proposal-card" onclick="viewProposal(3)">
+                        <div class="proposal-header">
+                            <h4 class="proposal-title">AI Chatbot Implementation</h4>
+                            <span class="badge badge-success">Approved</span>
+                        </div>
+                        
+                        <div class="proposal-meta">
+                            <div class="proposal-meta-item">
+                                <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+                                <span>Created: Nov 20, 2024</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                                <span>Timeline: 2 months</span>
+                            </div>
+                            <div class="proposal-meta-item">
+                                <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                                <span>Client: CustomerFirst</span>
+                            </div>
+                        </div>
+                        
+                        <div class="proposal-footer">
+                            <div class="proposal-value">$18,500</div>
+                            <button class="btn-ghost btn-sm">
+                                <i data-lucide="eye"></i>
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
