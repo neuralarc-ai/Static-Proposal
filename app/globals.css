@@ -3,18 +3,13 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Google Fonts - Manrope (Primary) */
-    --font-manrope: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    
-    /* Google Fonts - Sora (Secondary for headings) */
-    --font-sora: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  }
+  /* Note: --font-manrope and --font-sora are set by Next.js font optimization in layout.tsx */
+  /* We don't override them here, we just use them */
 
   /* Apply Manrope to body and all text by default */
   body {
     @apply bg-gray-50 text-primary antialiased;
-    font-family: var(--font-manrope);
+    font-family: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     font-optical-sizing: auto;
     font-feature-settings: 'kern' 1;
     text-rendering: optimizeLegibility;
@@ -22,9 +17,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Apply Sora to all headings */
+  /* Apply Sora to all headings - using Next.js font variable */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sora);
+    font-family: var(--font-sora), 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     font-optical-sizing: auto;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -32,7 +27,7 @@
   
   /* Ensure buttons and inputs use primary font */
   button, input, textarea, select {
-    font-family: var(--font-manrope);
+    font-family: var(--font-manrope), 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
   /* Make password dots square for PIN inputs using custom font approach */
