@@ -47,14 +47,26 @@ export async function POST(request: NextRequest) {
     const supabase = createSupabaseServerClient()
 
     // Find users based on role
-    const { data: users, error: usersError } = await supabase
-      .from('users')
-      .select(userRole === 'admin' 
-        ? 'id, email, name, role, pin_hash, status'
-        : 'id, email, name, role, pin_hash, status, company'
-      )
-      .eq('role', userRole)
-      .eq('status', 'active')
+    let users: any[] | null = null
+    let usersError: any = null
+
+    if (userRole === 'admin') {
+      const result = await supabase
+        .from('users')
+        .select('id, email, name, role, pin_hash, status')
+        .eq('role', 'admin')
+        .eq('status', 'active')
+      users = result.data
+      usersError = result.error
+    } else {
+      const result = await supabase
+        .from('users')
+        .select('id, email, name, role, pin_hash, status, company')
+        .eq('role', 'partner')
+        .eq('status', 'active')
+      users = result.data
+      usersError = result.error
+    }
 
     if (usersError || !users || users.length === 0) {
       return NextResponse.json(
@@ -67,7 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Try to find matching PIN
-    let authenticatedUser: typeof users[0] | null = null
+    let authenticatedUser: any = null
 
     for (const user of users) {
       if (user.pin_hash) {
@@ -130,7 +142,7 @@ export async function POST(request: NextRequest) {
           email: authenticatedUser.email,
           name: authenticatedUser.name,
           role: authenticatedUser.role,
-          ...(userRole === 'partner' && 'company' in authenticatedUser ? { company: authenticatedUser.company } : {}),
+          ...(userRole === 'partner' && authenticatedUser.company ? { company: authenticatedUser.company } : {}),
         },
       },
       { status: 200 }

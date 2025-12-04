@@ -68,12 +68,8 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      // Use absolute URL to avoid subdomain routing issues on Vercel
-      const apiUrl = typeof window !== 'undefined' 
-        ? `${window.location.origin}/api/auth/admin/login`
-        : '/api/auth/admin/login'
-      
-      const response = await fetch(apiUrl, {
+      // Use unified login endpoint that works on both subdomains
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
