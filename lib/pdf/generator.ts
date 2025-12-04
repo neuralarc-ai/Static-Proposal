@@ -48,28 +48,41 @@ export async function generateProposalPDF({ element, filename, title }: Generate
     for (let i = 1; i <= totalPages; i++) {
       pdf.setPage(i)
       
+      // Get page dimensions
+      const pageWidth = pdf.internal.pageSize.getWidth()
+      const pageHeight = pdf.internal.pageSize.getHeight()
+      
       // Set watermark properties
       pdf.setTextColor(200, 200, 200) // Light gray
       pdf.setFontSize(60)
       pdf.setFont('helvetica', 'bold')
       
-      // Get page dimensions
-      const pageWidth = pdf.internal.pageSize.getWidth()
-      const pageHeight = pdf.internal.pageSize.getHeight()
-      
       // Calculate center position
-      const textWidth = pdf.getTextWidth('CONFIDENTIAL')
-      const x = (pageWidth - textWidth) / 2
-      const y = pageHeight / 2
+      const centerX = pageWidth / 2
+      const centerY = pageHeight / 2
       
       // Save current graphics state
       pdf.saveGraphicsState()
       
-      // Translate to center, rotate, then translate back
-      pdf.translate(x + textWidth / 2, y)
-      pdf.rotate(45, { originX: 0, originY: 0 })
-      pdf.text('CONFIDENTIAL', -textWidth / 2, 0, {
+      // Set opacity for watermark (if supported)
+      try {
+        if (pdf.setGState) {
+          pdf.setGState(pdf.GState({ opacity: 0.3 }))
+        }
+      } catch (e) {
+        // GState might not be available, continue without opacity
+      }
+      
+      // Rotate and draw watermark text
+      // jsPDF rotate works in radians, 45 degrees = PI/4
+      const angle = (45 * Math.PI) / 180
+      
+      // Translate to center, rotate, then draw text
+      pdf.translate(centerX, centerY)
+      pdf.rotate(angle)
+      pdf.text('CONFIDENTIAL', 0, 0, {
         align: 'center',
+        baseline: 'middle',
       })
       
       // Restore graphics state
