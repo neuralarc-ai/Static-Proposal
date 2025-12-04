@@ -1,14 +1,16 @@
 # Partner Portal Web Application
 
-A comprehensive partner management and proposal generation system built with HTML, CSS, and JavaScript.
+A comprehensive partner management and proposal generation system built with Next.js, TypeScript, and Supabase.
 
 ## 🎯 Overview
 
 This web application provides a complete solution for managing partners, creating personalized pricing, and generating AI-powered proposals. The system features separate interfaces for administrators and partners, with a clean, modern design using black and white aesthetics.
 
-## 🌐 Live Preview
+## 🌐 Live Deployment
 
-**Access the application here:** https://8000-0f1fea1e-0c95-4d1b-ad35-0ef0fdbf18e0.proxy.daytona.works/
+**Production URL:** https://helium.services
+
+**GitHub Repository:** https://github.com/neuralarc-ai/Static-Proposal
 
 ## 📁 Project Structure
 
@@ -175,11 +177,68 @@ partner-portal/
 ## 🔧 Technical Details
 
 ### Technologies Used
-- **HTML5:** Semantic markup
-- **CSS3:** Modern styling with Grid and Flexbox
-- **JavaScript:** Vanilla JS for interactions
-- **Lucide Icons:** Professional icon system
-- **Google Fonts:** Manrope and Sora typefaces
+- **Next.js 14:** React framework with App Router
+- **TypeScript:** Type-safe development
+- **Supabase:** PostgreSQL database and authentication
+- **Tailwind CSS:** Utility-first CSS framework
+- **Google Gemini AI:** AI-powered proposal generation
+- **React Icons:** Icon library (Remix Icons)
+- **Zustand:** State management
+- **JWT:** Authentication tokens
+
+## 🚀 Deployment
+
+### Vercel Deployment
+
+This project is configured for deployment on Vercel with the domain `helium.services`.
+
+#### Prerequisites
+1. GitHub repository: https://github.com/neuralarc-ai/Static-Proposal
+2. Vercel account
+3. Domain: `helium.services` (configured in Vercel)
+
+#### Deployment Steps
+
+1. **Connect to Vercel:**
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "Add New Project"
+   - Import the GitHub repository: `neuralarc-ai/Static-Proposal`
+
+2. **Configure Environment Variables:**
+   Add the following in Vercel project settings:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+   JWT_SECRET=your_jwt_secret
+   JWT_EXPIRES_IN_ADMIN=24h
+   JWT_EXPIRES_IN_PARTNER=7d
+   GOOGLE_GEMINI_API_KEY=your_gemini_api_key
+   NEXT_PUBLIC_APP_URL=https://helium.services
+   ```
+
+3. **Configure Domain:**
+   - In Vercel project settings, go to "Domains"
+   - Add `helium.services` as the production domain
+   - Add `www.helium.services` if needed
+   - Update DNS records as instructed by Vercel
+
+4. **Deploy:**
+   - Vercel will automatically deploy on every push to `main` branch
+   - Or manually trigger deployment from the dashboard
+
+#### Build Settings
+- **Framework Preset:** Next.js
+- **Build Command:** `npm run build`
+- **Output Directory:** `.next`
+- **Install Command:** `npm install`
+
+#### Subdomain Configuration
+The application supports subdomain routing:
+- **Admin Portal:** `admin.helium.services`
+- **Partner Portal:** `helium.services` (root domain)
+
+Configure these in Vercel's domain settings and update DNS records accordingly.
 
 ### Browser Compatibility
 - Chrome/Edge (latest)
