@@ -125,6 +125,7 @@ export default function Sidebar({ role }: SidebarProps) {
           width={160}
           height={40}
           className="mb-6"
+          style={{ width: 'auto', height: '40px', objectFit: 'contain' }}
         />
 
         <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">

@@ -163,6 +163,7 @@ export default function ProposalViewPage() {
                 alt="Neural Arc Logo"
                 width={192}
                 height={48}
+                style={{ width: 'auto', height: '48px', objectFit: 'contain' }}
               />
             </div>
             <div className="text-right">

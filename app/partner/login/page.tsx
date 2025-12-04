@@ -117,7 +117,8 @@ export default function PartnerLoginPage() {
             alt="Neural Arc Logo"
             width={192}
             height={48}
-            className="h-12 mx-auto mb-8"
+            className="mx-auto mb-8"
+            style={{ width: 'auto', height: '48px', objectFit: 'contain' }}
           />
           <h1 className="text-3xl font-secondary font-bold mb-2">Partner Portal</h1>
           <p className="text-gray-600">Enter your 4-digit PIN to access your dashboard</p>

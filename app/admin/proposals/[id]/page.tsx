@@ -263,7 +263,8 @@ export default function AdminProposalViewPage() {
               alt="Neural Arc Logo"
               width={200}
               height={50}
-              className="h-12 mx-auto mb-4"
+              className="mx-auto mb-4"
+              style={{ width: 'auto', height: '48px', objectFit: 'contain' }}
             />
             <h2 className="text-4xl font-secondary font-bold mb-2">{proposal.title}</h2>
             <p className="text-xl text-gray-600">Prepared for {proposal.client_name || proposal.client}</p>
