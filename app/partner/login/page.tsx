@@ -68,7 +68,7 @@ export default function PartnerLoginPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/authenticate', {
+      const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -68,8 +68,8 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      // Use authenticate endpoint (avoiding 'login' in route name due to Vercel issues)
-      const response = await fetch('/api/auth/authenticate', {
+      // Use signin endpoint (trying different route name to avoid Vercel 405 issues)
+      const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

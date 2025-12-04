@@ -7,6 +7,11 @@ import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+const loginSchema = z.object({
+  pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
+  role: z.enum(['admin', 'partner']).optional(),
+})
+
 // Handle CORS preflight
 export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
@@ -18,11 +23,6 @@ export async function OPTIONS(request: NextRequest) {
     },
   })
 }
-
-const loginSchema = z.object({
-  pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
-  role: z.enum(['admin', 'partner']).optional(), // Optional: can be inferred from referer
-})
 
 export async function POST(request: NextRequest) {
   try {
