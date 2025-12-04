@@ -89,7 +89,7 @@ partner-portal/
 ## 🎨 Design System
 
 ### Brand Fonts
-- **Primary:** Manrope (200-800 weights)
+- **Primary:** Fustat (200-800 weights)
 - **Secondary:** Sora (200-800 weights)
 
 ### Color Palette

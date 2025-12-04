@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Manrope, Sora } from 'next/font/google'
+import { Fustat, Sora } from 'next/font/google'
 import './globals.css'
 
-// Load Manrope font from Google Fonts (Primary font)
-const manrope = Manrope({
+// Load Fustat font from Google Fonts (Primary font)
+const fustat = Fustat({
   subsets: ['latin'],
   weight: ['200', '300', '400', '500', '600', '700', '800'],
-  variable: '--font-manrope',
+  variable: '--font-fustat',
   display: 'swap',
   preload: true,
 })
@@ -14,7 +14,7 @@ const manrope = Manrope({
 // Load Sora font from Google Fonts (Secondary font for headings)
 const sora = Sora({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500', '600', '700', '800'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
   variable: '--font-sora',
   display: 'swap',
   preload: true,
@@ -31,13 +31,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${sora.variable}`}>
+    <html lang="en" className={`${fustat.variable} ${sora.variable}`}>
       <head>
         {/* Preconnect to Google Fonts for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${manrope.className}`}>{children}</body>
+      <body className={`${fustat.className}`}>{children}</body>
     </html>
   )
 }

@@ -20,10 +20,10 @@ const config: Config = {
         verdant: '#27584F',
       },
       fontFamily: {
-        primary: ['var(--font-manrope)', 'Manrope', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        primary: ['var(--font-fustat)', 'Fustat', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         secondary: ['var(--font-sora)', 'Sora', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        sans: ['var(--font-manrope)', 'Manrope', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        manrope: ['var(--font-manrope)', 'Manrope', 'sans-serif'],
+        sans: ['var(--font-fustat)', 'Fustat', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        fustat: ['var(--font-fustat)', 'Fustat', 'sans-serif'],
         sora: ['var(--font-sora)', 'Sora', 'sans-serif'],
       },
       borderRadius: {
