@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-manrope: 'Manrope', sans-serif;
+    --font-sora: 'Sora', sans-serif;
+  }
+
+  body {
+    @apply bg-gray-50 text-primary font-primary antialiased;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
