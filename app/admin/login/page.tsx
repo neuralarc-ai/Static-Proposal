@@ -76,6 +76,7 @@ export default function AdminLoginPage() {
         },
         body: JSON.stringify({
           pin: pinString,
+          role: 'admin', // Explicitly pass role for path-based routing
         }),
       })
 
@@ -176,12 +177,7 @@ export default function AdminLoginPage() {
           <p className="text-gray-600 text-sm">
             Partner?{' '}
             <a 
-              href={typeof window !== 'undefined'
-                ? window.location.origin.includes('admin.')
-                  ? window.location.origin.replace('admin.', '')
-                  : window.location.origin
-                : '/'
-              }
+              href="/partner/login"
               className="text-primary font-semibold hover:opacity-70"
             >
               Partner Portal

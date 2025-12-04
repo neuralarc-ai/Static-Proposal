@@ -68,13 +68,14 @@ export default function PartnerLoginPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/partner/login', {
+      const response = await fetch('/api/auth/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           pin: pinString,
+          role: 'partner', // Explicitly pass role for path-based routing
         }),
       })
 

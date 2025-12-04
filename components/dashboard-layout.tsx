@@ -65,18 +65,12 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
 
           // Check role matches
           if (user.role !== role) {
-            // Redirect to correct subdomain
+            // Redirect to correct path
             if (user.role === 'admin') {
-              const adminUrl = window.location.origin.includes('admin.')
-                ? `${window.location.origin}/admin/dashboard`
-                : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/dashboard'
-              window.location.href = adminUrl
+              window.location.href = '/admin/dashboard'
               return
             } else {
-              const partnerUrl = window.location.origin.includes('admin.')
-                ? window.location.origin.replace('admin.', '') + '/partner/dashboard'
-                : window.location.origin + '/partner/dashboard'
-              window.location.href = partnerUrl
+              window.location.href = '/partner/dashboard'
               return
             }
           }
@@ -86,15 +80,9 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
         } else {
           // Not authenticated, redirect to appropriate login page
           if (role === 'admin') {
-            const adminUrl = window.location.origin.includes('admin.')
-              ? `${window.location.origin}/admin/login`
-              : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/login'
-            window.location.href = adminUrl
+            window.location.href = '/admin/login'
           } else {
-            const partnerUrl = window.location.origin.includes('admin.')
-              ? window.location.origin.replace('admin.', '')
-              : window.location.origin
-            window.location.href = partnerUrl
+            window.location.href = '/partner/login'
           }
         }
       } catch (error) {

@@ -1,8 +1,9 @@
 /**
  * Next.js Middleware
- * Handles subdomain routing:
- * - admin.localhost:3000 -> Admin portal
- * - localhost:3000 -> Partner portal
+ * Handles path-based routing:
+ * - /admin/* -> Admin portal
+ * - /partner/* -> Partner portal
+ * - / -> Partner portal (default)
  */
 
 import { NextResponse } from 'next/server'
@@ -10,71 +11,38 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
-  const hostname = request.headers.get('host') || ''
-  
-  // Extract subdomain
-  const subdomain = hostname.split('.')[0]
-  
-  // Check if it's admin subdomain
-  const isAdminSubdomain = subdomain === 'admin' || hostname.startsWith('admin.')
-  
-  // Get the path
   const path = url.pathname
-  
+
   // CRITICAL: Skip middleware entirely for API routes
   if (path.startsWith('/api/')) {
     return NextResponse.next()
   }
 
-  // Admin subdomain routing
-  if (isAdminSubdomain) {
-    // If on root, redirect to admin login
-    if (path === '/') {
-      url.pathname = '/admin/login'
-      return NextResponse.redirect(url)
-    }
-    
-    // If trying to access partner routes, redirect to admin equivalent
-    if (path.startsWith('/partner/')) {
-      url.pathname = path.replace('/partner/', '/admin/')
-      return NextResponse.redirect(url)
-    }
-    
-    // If trying to access partner login, redirect to admin login
-    if (path === '/partner/login' || path === '/login') {
-      url.pathname = '/admin/login'
-      return NextResponse.redirect(url)
-    }
-    
-    // Allow admin routes
-    if (path.startsWith('/admin/')) {
-      return NextResponse.next()
-    }
-    
-    // Default: redirect to admin login
-    url.pathname = '/admin/login'
-    return NextResponse.redirect(url)
-  }
-  
-  // Partner portal (default/localhost)
-  // Root path shows partner login (handled by page.tsx)
-  // Allow partner routes and API routes
-  if (path.startsWith('/partner/') || path.startsWith('/api/') || path === '/') {
+  // Skip middleware for static files and Next.js internals
+  if (
+    path.startsWith('/_next/') ||
+    path.startsWith('/favicon.ico') ||
+    path.match(/\.(svg|png|jpg|jpeg|gif|webp)$/)
+  ) {
     return NextResponse.next()
   }
-  
-  // If trying to access admin routes, redirect to partner equivalent
+
+  // Root path - redirect to partner login
+  if (path === '/') {
+    return NextResponse.next() // Let page.tsx handle it (partner login)
+  }
+
+  // Admin routes - allow through
   if (path.startsWith('/admin/')) {
-    url.pathname = path.replace('/admin/', '/partner/')
-    return NextResponse.redirect(url)
+    return NextResponse.next()
   }
-  
-  // If trying to access admin login, redirect to root (partner login)
-  if (path === '/admin/login') {
-    url.pathname = '/'
-    return NextResponse.redirect(url)
+
+  // Partner routes - allow through
+  if (path.startsWith('/partner/')) {
+    return NextResponse.next()
   }
-  
+
+  // Default: allow through (let Next.js handle 404s)
   return NextResponse.next()
 }
 
@@ -91,4 +59,3 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
-

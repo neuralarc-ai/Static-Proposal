@@ -9,6 +9,7 @@ export const runtime = 'nodejs'
 
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
+  role: z.enum(['admin', 'partner']).optional(), // Optional: can be inferred from referer
 })
 
 export async function POST(request: NextRequest) {
@@ -20,12 +21,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid PIN format' }, { status: 400 })
     }
 
-    const { pin } = validation.data
+    const { pin, role: explicitRole } = validation.data
 
-    const hostname = request.headers.get('host') || ''
-    const subdomain = hostname.split('.')[0]
-    const isAdminSubdomain = subdomain === 'admin' || hostname.startsWith('admin.')
-    const userRole = isAdminSubdomain ? 'admin' : 'partner'
+    // Determine role: explicit role from body, then from referer/origin (path-based routing)
+    let userRole: 'admin' | 'partner' = 'partner'
+    
+    if (explicitRole) {
+      userRole = explicitRole
+    } else {
+      // Check referer first (most reliable), then origin
+      const referer = request.headers.get('referer') || ''
+      const origin = request.headers.get('origin') || ''
+      const url = referer || origin
+      
+      // Check if the request is coming from an admin page
+      const isAdminPath = url.includes('/admin/')
+      userRole = isAdminPath ? 'admin' : 'partner'
+    }
 
     const supabase = createSupabaseServerClient()
 
