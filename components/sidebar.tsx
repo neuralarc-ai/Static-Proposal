@@ -52,9 +52,15 @@ export default function Sidebar({ role }: SidebarProps) {
         // Clear local state and redirect to appropriate login
         logout()
         if (role === 'admin') {
-          window.location.href = 'http://admin.localhost:3000/admin/login'
+          const adminUrl = window.location.origin.includes('admin.') 
+            ? `${window.location.origin}/admin/login`
+            : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/login'
+          window.location.href = adminUrl
         } else {
-          window.location.href = 'http://localhost:3000'
+          const partnerUrl = window.location.origin.includes('admin.')
+            ? window.location.origin.replace('admin.', '')
+            : window.location.origin
+          window.location.href = partnerUrl
         }
       }
     }

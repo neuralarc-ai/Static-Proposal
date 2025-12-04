@@ -61,10 +61,16 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
           if (user.role !== role) {
             // Redirect to correct subdomain
             if (user.role === 'admin') {
-              window.location.href = 'http://admin.localhost:3000/admin/dashboard'
+              const adminUrl = window.location.origin.includes('admin.')
+                ? `${window.location.origin}/admin/dashboard`
+                : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/dashboard'
+              window.location.href = adminUrl
               return
             } else {
-              window.location.href = 'http://localhost:3000/partner/dashboard'
+              const partnerUrl = window.location.origin.includes('admin.')
+                ? window.location.origin.replace('admin.', '') + '/partner/dashboard'
+                : window.location.origin + '/partner/dashboard'
+              window.location.href = partnerUrl
               return
             }
           }
@@ -74,18 +80,30 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
         } else {
           // Not authenticated, redirect to appropriate login page
           if (role === 'admin') {
-            window.location.href = 'http://admin.localhost:3000/admin/login'
+            const adminUrl = window.location.origin.includes('admin.')
+              ? `${window.location.origin}/admin/login`
+              : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/login'
+            window.location.href = adminUrl
           } else {
-            window.location.href = 'http://localhost:3000'
+            const partnerUrl = window.location.origin.includes('admin.')
+              ? window.location.origin.replace('admin.', '')
+              : window.location.origin
+            window.location.href = partnerUrl
           }
         }
       } catch (error) {
         console.error('Auth check error:', error)
         // Redirect based on role
         if (role === 'admin') {
-          window.location.href = 'http://admin.localhost:3000/admin/login'
+          const adminUrl = window.location.origin.includes('admin.')
+            ? `${window.location.origin}/admin/login`
+            : window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.') + '/admin/login'
+          window.location.href = adminUrl
         } else {
-          window.location.href = 'http://localhost:3000'
+          const partnerUrl = window.location.origin.includes('admin.')
+            ? window.location.origin.replace('admin.', '')
+            : window.location.origin
+          window.location.href = partnerUrl
         }
       }
     }

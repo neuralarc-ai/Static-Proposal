@@ -172,7 +172,13 @@ export default function PartnerLoginPage() {
         <div className="text-center mt-8 pt-6 border-t border-gray-200">
           <p className="text-gray-600 text-sm">
             Admin?{' '}
-            <a href="http://admin.localhost:3000" className="text-primary font-semibold hover:opacity-70">
+            <a 
+              href={typeof window !== 'undefined' 
+                ? window.location.origin.replace('https://', 'https://admin.').replace('http://', 'http://admin.')
+                : '/admin/login'
+              } 
+              className="text-primary font-semibold hover:opacity-70"
+            >
               Admin Portal
             </a>
           </p>
