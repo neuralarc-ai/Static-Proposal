@@ -149,7 +149,7 @@ export default function PartnerLoginPage() {
                 className="w-16 h-20 text-center text-2xl font-secondary font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 inputMode="numeric"
                 pattern="[0-9]"
-                style={{ caretColor: 'transparent', fontSize: '1.5rem' }}
+                style={{ caretColor: 'transparent', fontSize: '1.75rem' }}
               />
             ))}
           </div>
