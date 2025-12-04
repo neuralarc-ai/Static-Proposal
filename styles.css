@@ -114,7 +114,7 @@ a:hover {
     gap: var(--spacing-xs);
     padding: 0.875rem 1.5rem;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     font-family: var(--font-primary);
     font-size: 1rem;
     font-weight: 600;
