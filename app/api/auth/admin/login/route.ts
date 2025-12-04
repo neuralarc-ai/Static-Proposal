@@ -12,6 +12,7 @@ import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
 // Mark route as dynamic to prevent static generation
+// This ensures the route is available in production
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 

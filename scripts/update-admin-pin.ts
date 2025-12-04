@@ -77,7 +77,7 @@ async function updateAdminPin() {
     console.log(`   Email: ${admin.email}`)
     console.log(`   Name: ${admin.name}`)
     console.log(`   New PIN: ${pin}`)
-    console.log('\n🎉 You can now login with PIN: 1978')
+    console.log(`\n🎉 You can now login with PIN: ${pin}`)
   } catch (error) {
     console.error('❌ Error:', error)
     process.exit(1)

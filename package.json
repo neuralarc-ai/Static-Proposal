@@ -9,6 +9,8 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "seed:admin": "tsx scripts/seed-admin.ts",
+    "update:admin-pin": "tsx scripts/update-admin-pin.ts",
+    "list:admins": "tsx scripts/list-admins.ts",
     "test:db": "tsx scripts/test-connection.ts"
   },
   "dependencies": {
