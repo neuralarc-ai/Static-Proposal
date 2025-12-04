@@ -363,6 +363,7 @@ a:hover {
 }
 
 .sidebar-logo {
+    object-fit: contain;
     height: 40px;
     width: auto;
     margin-bottom: var(--spacing-lg);
