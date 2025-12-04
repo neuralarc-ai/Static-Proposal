@@ -16,6 +16,10 @@ import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+// Route segment config - ensure this route is always handled server-side
+export const fetchCache = 'force-no-store'
+export const revalidate = 0
+
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
 })
