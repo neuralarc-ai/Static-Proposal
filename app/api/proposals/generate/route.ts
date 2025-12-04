@@ -22,6 +22,14 @@ const generateProposalSchema = z.object({
   budget: z.number().positive().optional(),
   currency: z.enum(['USD', 'INR', 'EUR', 'GBP']).default('USD'),
   timeline: z.string().optional(),
+  industry: z.enum(['insurance', 'banking', 'healthcare', 'finance', 'consulting']).optional(),
+  solutionType: z.string().optional(),
+  complexity: z.enum(['simple', 'moderate', 'complex', 'enterprise']).optional(),
+  teamSize: z.enum(['small', 'medium', 'large']).optional(),
+  licenseTier: z.enum(['starter', 'professional', 'enterprise']).optional(),
+  minimumBudget: z.number().positive().optional(),
+  country: z.string().optional(),
+  expectedTime: z.string().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -42,7 +50,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { clientName, projectDescription, requirements, budget, currency, timeline } = validation.data
+    const { clientName, projectDescription, requirements, budget, currency, timeline, industry, solutionType, complexity, teamSize, licenseTier, minimumBudget, country, expectedTime } = validation.data
     const supabase = createSupabaseServerClient()
 
     // Get partner information
@@ -61,6 +69,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get global price list based on currency (from Neural Arc Knowledge Base)
+    // Currency is determined from country selection or defaults to USD
     const priceListCurrency = currency || 'USD'
     const { data: priceList, error: priceListError } = await supabase
       .from('price_lists')
@@ -103,9 +112,17 @@ export async function POST(request: NextRequest) {
         clientName,
         projectDescription,
         requirements,
-        budget,
+        budget: minimumBudget || budget,
         currency: currency || finalPriceList.currency,
-        timeline,
+        timeline: expectedTime || timeline,
+        industry: industry || undefined,
+        solutionType: solutionType || undefined,
+        complexity: complexity || undefined,
+        teamSize: teamSize || undefined,
+        licenseTier: licenseTier || undefined,
+        minimumBudget: minimumBudget || undefined,
+        country: country || undefined,
+        expectedTime: expectedTime || undefined,
         priceList: {
           currency: finalPriceList.currency as 'USD' | 'INR' | 'EUR' | 'GBP',
           helium_license_monthly: Number(finalPriceList.helium_license_monthly),
@@ -126,8 +143,44 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Calculate total value from investment items
-    const totalValue = generatedContent.investment.reduce((sum, item) => sum + item.amount, 0)
+    // Normalize investment items - ensure all amounts are numbers
+    const normalizedInvestment = generatedContent.investment.map((item) => {
+      const rawAmount: unknown = item.amount
+      let amount: number
+      
+      // If amount is a string, parse it (remove currency symbols, commas, etc.)
+      if (typeof rawAmount === 'string') {
+        // Remove currency symbols, commas, and whitespace
+        const cleaned = rawAmount.replace(/[$€£₹,\s]/g, '')
+        // Parse as float
+        amount = parseFloat(cleaned) || 0
+      } else if (typeof rawAmount === 'number') {
+        amount = rawAmount
+      } else {
+        amount = 0
+      }
+      
+      // Ensure it's a valid number
+      if (isNaN(amount) || !isFinite(amount)) {
+        console.warn(`Invalid amount for item "${item.name}": ${rawAmount}, using 0`)
+        amount = 0
+      }
+      
+      return {
+        name: item.name,
+        description: item.description,
+        amount: amount,
+      }
+    })
+    
+    // Calculate total value from normalized investment items
+    const totalValue = normalizedInvestment.reduce((sum, item) => sum + item.amount, 0)
+    
+    // Ensure totalValue is a valid number
+    if (isNaN(totalValue) || !isFinite(totalValue)) {
+      console.error('Invalid totalValue calculated:', totalValue, 'from investment items:', generatedContent.investment)
+      throw new Error('Failed to calculate proposal total value')
+    }
 
     // Create proposal in database
     const { data: proposal, error: proposalError } = await supabase
@@ -143,7 +196,7 @@ export async function POST(request: NextRequest) {
         executive_summary: generatedContent.executiveSummary,
         project_scope: generatedContent.projectScope,
         timeline_phases: generatedContent.timeline,
-        investment_items: generatedContent.investment,
+        investment_items: normalizedInvestment,
         deliverables: generatedContent.deliverables,
         technology_stack: generatedContent.technologyStack,
         terms_and_conditions: generatedContent.termsAndConditions,

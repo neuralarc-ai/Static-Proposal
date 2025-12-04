@@ -22,6 +22,14 @@ export interface ProposalGenerationInput {
   budget?: number
   currency?: string
   timeline?: string
+  industry?: 'insurance' | 'banking' | 'healthcare' | 'finance' | 'consulting'
+  solutionType?: string
+  complexity?: 'simple' | 'moderate' | 'complex' | 'enterprise'
+  teamSize?: 'small' | 'medium' | 'large'
+  licenseTier?: 'starter' | 'professional' | 'enterprise'
+  minimumBudget?: number
+  country?: string
+  expectedTime?: string
   priceList?: {
     currency: 'USD' | 'INR' | 'EUR' | 'GBP'
     helium_license_monthly: number
@@ -201,6 +209,156 @@ Complexity Factors:
 - DevOps Engineer: 10-15% of project hours
 - QA Engineer: 15-20% of project hours
 - Project Manager: 10-15% of project hours
+
+## Industry-Specific Solutions & Pricing
+
+### Insurance Industry Solutions
+
+1. **AI-Powered Claims Processing System**
+   - Timeline: 20 weeks (5 months)
+   - Development Cost: $35,000 - $45,000
+   - Helium License (Annual): $5,000 - $15,000
+   - Total Year 1: $40,000 - $60,000
+   - Features: Intelligent document extraction (OCR + NLP), Automated fraud detection, Claims routing, Real-time status tracking, Policy management integration
+   - Technologies: Computer Vision, NLP, Fraud Detection
+
+2. **Intelligent Underwriting Assistant**
+   - Timeline: 20 weeks (5 months)
+   - Development Cost: $30,000 - $40,000
+   - Helium License (Annual): $4,000 - $12,000
+   - Total Year 1: $34,000 - $52,000
+   - Features: Risk profile analysis, Policy term recommendations, Automated underwriting decisions
+   - Technologies: Risk Assessment, ML Models, Compliance
+
+3. **Customer Service AI Chatbot**
+   - Timeline: 13 weeks (3 months)
+   - Development Cost: $12,000 - $18,000
+   - Helium License (Annual): $3,000 - $8,000
+   - Total Year 1: $15,000 - $26,000
+   - Features: Policy inquiries, Claim status, Premium calculations, General customer support
+   - Technologies: Conversational AI, Multi-channel, Multilingual
+
+### Banking & Finance Industry Solutions
+
+1. **Fraud Detection & Prevention System**
+   - Timeline: 28 weeks (7 months)
+   - Development Cost: $50,000 - $70,000
+   - Helium License (Annual): $8,000 - $20,000
+   - Total Year 1: $58,000 - $90,000
+   - Features: Real-time transaction monitoring, Anomaly detection, Risk scoring
+   - Technologies: Real-time Monitoring, Anomaly Detection, Risk Scoring
+
+2. **AI-Powered Loan Underwriting System**
+   - Timeline: 25 weeks (6 months)
+   - Development Cost: $45,000 - $60,000
+   - Helium License (Annual): $7,000 - $18,000
+   - Total Year 1: $52,000 - $78,000
+   - Features: Automated credit assessment, Risk evaluation, Loan approval recommendations
+   - Technologies: Credit Scoring, Risk Assessment, Compliance
+
+3. **Personalized Banking Assistant**
+   - Timeline: 18 weeks (4.5 months)
+   - Development Cost: $28,000 - $38,000
+   - Helium License (Annual): $5,000 - $12,000
+   - Total Year 1: $33,000 - $50,000
+   - Features: Account management, Transaction queries, Financial advice, Product recommendations
+   - Technologies: Conversational AI, Personalization, Multi-channel
+
+### Healthcare Industry Solutions
+
+1. **Clinical Decision Support System**
+   - Timeline: 33 weeks (8 months)
+   - Development Cost: $60,000 - $85,000
+   - Helium License (Annual): $10,000 - $25,000
+   - Total Year 1: $70,000 - $110,000
+   - Features: Diagnostic assistance, Treatment recommendations, Patient risk assessment
+   - Technologies: Medical Imaging, Diagnostics, HIPAA Compliant
+
+2. **Patient Engagement & Monitoring Platform**
+   - Timeline: 24 weeks (6 months)
+   - Development Cost: $38,000 - $52,000
+   - Helium License (Annual): $6,000 - $15,000
+   - Total Year 1: $44,000 - $67,000
+   - Features: Patient communication, Appointment scheduling, Medication reminders, Health monitoring
+   - Technologies: Patient Portal, Health Monitoring, Mobile App
+
+3. **Medical Claims Processing Automation**
+   - Timeline: 19 weeks (4.5 months)
+   - Development Cost: $32,000 - $45,000
+   - Helium License (Annual): $5,000 - $13,000
+   - Total Year 1: $37,000 - $58,000
+   - Features: Automated claim processing, Verification, Approval workflow
+   - Technologies: Document OCR, Validation, Workflow Automation
+
+### Finance & Investment Industry Solutions
+
+1. **Algorithmic Trading & Market Analysis Platform**
+   - Timeline: 31 weeks (7.5 months)
+   - Development Cost: $55,000 - $75,000
+   - Helium License (Annual): $9,000 - $22,000
+   - Total Year 1: $64,000 - $97,000
+   - Features: Market analysis, Trading signal generation, Portfolio optimization
+   - Technologies: Trading Algorithms, Predictive Models, Real-time Analysis
+
+2. **Credit Risk Assessment System**
+   - Timeline: 23 weeks (5.5 months)
+   - Development Cost: $42,000 - $58,000
+   - Helium License (Annual): $7,000 - $16,000
+   - Total Year 1: $49,000 - $74,000
+   - Features: Credit scoring, Risk evaluation, Lending decision support
+   - Technologies: Credit Scoring, Risk Prediction, Portfolio Analysis
+
+3. **Financial Advisory Chatbot**
+   - Timeline: 18 weeks (4.5 months)
+   - Development Cost: $30,000 - $42,000
+   - Helium License (Annual): $5,000 - $12,000
+   - Total Year 1: $35,000 - $54,000
+   - Features: Investment advice, Portfolio management, Financial planning
+   - Technologies: Investment Advice, Portfolio Management, NLP
+
+### Consulting Industry Solutions
+
+1. **AI-Powered Business Intelligence Platform**
+   - Timeline: 22 weeks (5.5 months)
+   - Development Cost: $40,000 - $55,000
+   - Helium License (Annual): $6,000 - $15,000
+   - Total Year 1: $46,000 - $70,000
+   - Features: Automated data analysis, Insight generation, Strategic recommendations
+   - Technologies: Data Integration, Analytics, Visualization
+
+2. **Document Analysis & Summarization System**
+   - Timeline: 18 weeks (4.5 months)
+   - Development Cost: $32,000 - $44,000
+   - Helium License (Annual): $5,000 - $12,000
+   - Total Year 1: $37,000 - $56,000
+   - Features: Document processing, Key insight extraction, Automated summarization
+   - Technologies: NLP, Document Processing, Knowledge Base
+
+3. **Client Engagement & CRM AI Assistant**
+   - Timeline: 16 weeks (4 months)
+   - Development Cost: $26,000 - $36,000
+   - Helium License (Annual): $4,000 - $10,000
+   - Total Year 1: $30,000 - $46,000
+   - Features: Client insights, Engagement recommendations, Relationship management
+   - Technologies: CRM Integration, Engagement Scoring, Recommendations
+
+### Helium License Tiers (Annual Pricing)
+
+- **Starter**: $3,000-8,000/year (Monthly: $300-800)
+  - Up to 10,000 API calls/month, Basic agent capabilities, Standard support, 2 concurrent users
+
+- **Professional**: $8,000-15,000/year (Monthly: $800-1,500) - Most Popular
+  - Up to 50,000 API calls/month, Advanced agent capabilities, Priority support, 10 concurrent users, 2 custom integrations
+
+- **Enterprise**: $15,000-30,000/year (Monthly: $1,500-3,000)
+  - Unlimited API calls, Full agent capabilities, Dedicated support, Unlimited users, Unlimited integrations, SLA guarantees, White-label options
+
+### Complexity & Team Size Impact
+
+- **Simple**: 1.0x multiplier, Small team (2-4 developers)
+- **Moderate**: 1.5x multiplier, Medium team (5-8 developers)
+- **Complex**: 2.0x multiplier, Medium-Large team (6-10 developers)
+- **Enterprise**: 3.0x multiplier, Large team (9-15 developers)
 `
 
 /**
@@ -213,7 +371,7 @@ export async function generateProposal(
     throw new Error('Google Gemini API key not configured')
   }
 
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' })
 
   // Determine market (India vs International) based on currency
   const isIndiaMarket = input.currency === 'INR'
@@ -231,35 +389,44 @@ export async function generateProposal(
 
 ${KNOWLEDGE_BASE}
 
-**CRITICAL INSTRUCTIONS - FOLLOW THIS WORKFLOW:**
+**YOUR TASK: Analyze the ACTUAL project requirements and create a REALISTIC proposal that makes business sense.**
 
-1. **FIRST STEP - Feature-Match Analysis**: Analyze the client requirements and match them against Helium AI's 9 core feature categories:
-   - Autonomous Task Execution
-   - Web Intelligence
-   - Content Creation
-   - Visual Generation
-   - Code Development
-   - Data Processing
-   - Integration Hub
-   - Workflow Automation
-   - Knowledge Management
+**CRITICAL ANALYSIS WORKFLOW - USE YOUR INTELLIGENCE:**
 
-2. **Calculate Helium Coverage**: Determine what percentage of requirements are covered by existing Helium features (0-100%)
+1. **Analyze the ACTUAL Project Requirements**:
+   - Read the project description carefully: "${input.projectDescription}"
+   - Understand what the client ACTUALLY needs (not what templates say)
+   - Assess the REAL complexity: Is this a simple chatbot? A basic workflow? A complex enterprise system?
+   - Be realistic: A simple chatbot for a company should NOT take 20 weeks or cost $50k+
 
-3. **Identify Gaps**: List specific requirements that cannot be met by Helium features
+2. **Feature-Match Analysis**:
+   - Match client requirements against Helium AI's 9 core feature categories
+   - Calculate REALISTIC Helium coverage percentage based on actual needs
+   - Identify ONLY the gaps that truly need bespoke development
 
-4. **Classify Solution**: Determine which of the four solutions best fits:
-   - Solution 1: AI Agent Development (80-100% Helium)
-   - Solution 2: Workflow Automation (60-80% Helium)
-   - Solution 3: Data Intelligence Platform (40-60% Helium)
-   - Solution 4: Custom AI Integration (20-80% Helium)
+3. **Determine REALISTIC Timeline**:
+   - Base timeline on ACTUAL project complexity, not templates
+   - Simple chatbot (basic Q&A): 2-4 weeks
+   - Moderate chatbot (with integrations): 4-8 weeks  
+   - Complex system (multiple features, integrations): 8-16 weeks
+   - Enterprise platform: 16-24+ weeks
+   - ${input.industry && input.solutionType ? `Reference the ${input.industry} industry solution "${input.solutionType}" as a GUIDE, but adjust based on ACTUAL requirements. If the client needs something simpler, use a shorter timeline.` : ''}
+   - Break timeline into logical phases that make sense for the actual work
 
-5. **Calculate Costs**: Use the pricing structure for ${market} market:
+4. **Calculate REALISTIC Development Costs**:
+   - Estimate ACTUAL development hours needed based on real requirements
+   - Simple projects: 20-60 hours
+   - Moderate projects: 60-150 hours
+   - Complex projects: 150-300 hours
+   - Enterprise projects: 300+ hours
    - Development Rate: ${isIndiaMarket ? '₹' : '$'}${devRate}/hour
-   - Implementation Fee: ${isIndiaMarket ? '₹' : '$'}${implementationFee.toLocaleString()}
-   - Helium License (Monthly): ${isIndiaMarket ? '₹' : '$'}${heliumMonthly.toLocaleString()}
-   - Helium License (Annual): ${isIndiaMarket ? '₹' : '$'}${heliumAnnual.toLocaleString()}
-   - Deployment: ${isIndiaMarket ? '₹' : '$'}${deploymentCost.toLocaleString()}
+   - ${input.industry && input.solutionType ? `Use industry solution costs as REFERENCE only - adjust down for simpler needs, up for more complex needs` : ''}
+   - Apply complexity multiplier: ${input.complexity === 'simple' ? '1.0x' : input.complexity === 'moderate' ? '1.5x' : input.complexity === 'complex' ? '2.0x' : '3.0x'}
+
+5. **Determine Appropriate Costs**:
+   - Implementation Fee: ${isIndiaMarket ? '₹' : '$'}${implementationFee.toLocaleString()} (only if significant setup needed)
+   - Helium License: Choose appropriate tier based on ACTUAL usage needs
+   - Deployment: ${isIndiaMarket ? '₹' : '$'}${deploymentCost.toLocaleString()} (adjust based on complexity)
    - Maintenance: ${isIndiaMarket ? '₹' : '$'}${maintenanceCost.toLocaleString()}/month
 
 **Partner Information:**
@@ -270,54 +437,72 @@ ${KNOWLEDGE_BASE}
 - Client Name: ${input.clientName}
 - Project Description: ${input.projectDescription}
 - Requirements: ${input.requirements.join('; ')}
+${input.industry ? `- Industry: ${input.industry.charAt(0).toUpperCase() + input.industry.slice(1)}` : ''}
+${input.solutionType ? `- Solution Type: ${input.solutionType}` : ''}
+${input.complexity ? `- Complexity: ${input.complexity.charAt(0).toUpperCase() + input.complexity.slice(1)}` : ''}
+${input.teamSize ? `- Team Size: ${input.teamSize.charAt(0).toUpperCase() + input.teamSize.slice(1)}` : ''}
+${input.licenseTier ? `- Helium License Tier: ${input.licenseTier.charAt(0).toUpperCase() + input.licenseTier.slice(1)}` : ''}
+${input.country ? `- Country: ${input.country}` : ''}
+${input.minimumBudget ? `- Minimum Budget: ${input.currency || 'USD'} ${input.minimumBudget.toLocaleString()}` : ''}
+${input.expectedTime ? `- Expected Timeline: ${input.expectedTime}` : ''}
 
 ${input.budget ? `- Budget: ${input.currency || 'USD'} ${input.budget.toLocaleString()}` : ''}
 ${input.timeline ? `- Timeline: ${input.timeline}` : ''}
 
+${input.industry && input.solutionType ? `
+**Industry Context (Use as REFERENCE, not mandatory template):**
+- Industry: ${input.industry}
+- Solution Type: ${input.solutionType}
+- The Industry-Specific Solutions section provides REFERENCE pricing and timelines for similar solutions
+- However, you MUST analyze the ACTUAL requirements and adjust accordingly
+- If the client needs something simpler than the template, use lower costs and shorter timelines
+- If the client needs something more complex, use higher costs and longer timelines
+- Complexity: ${input.complexity || 'moderate'} (${input.complexity === 'simple' ? '1.0x' : input.complexity === 'moderate' ? '1.5x' : input.complexity === 'complex' ? '2.0x' : '3.0x'} multiplier)
+- Team Size: ${input.teamSize || 'medium'}
+- License Tier: ${input.licenseTier || 'professional'}
+` : ''}
+
 **Generate a comprehensive proposal following Neural Arc's standards. Return ONLY valid JSON in this exact format (no markdown, no code blocks):**
 
 {
-  "executiveSummary": "A compelling 2-3 paragraph executive summary that: (1) Highlights how Helium AI addresses the client's needs, (2) Mentions the feature-match analysis and Helium coverage percentage, (3) Emphasizes the value proposition of using Helium AI platform, (4) References the solution type (1-4) that best fits their needs",
+  "executiveSummary": "A compelling 2-3 paragraph executive summary that: (1) Highlights how Helium AI addresses the client's needs${input.industry ? `, (2) References the specific ${input.industry} industry solution (${input.solutionType || 'selected solution'})` : ', (2) Mentions the feature-match analysis and Helium coverage percentage'}, (3) Emphasizes the value proposition of using Helium AI platform, (4) References the solution type (1-4) that best fits their needs",
   
   "projectScope": [
     "List 5-7 scope items that: (1) Reference specific Helium AI features being used, (2) Include any bespoke development needed for gaps, (3) Be specific about capabilities (e.g., 'Leverage Helium's Web Intelligence for real-time market research', 'Custom API integration using Helium's Integration Hub')"
   ],
   
   "timeline": [
-    {
-      "period": "Week 1-2",
-      "title": "Phase Title (e.g., 'Helium Configuration & Setup')",
-      "description": "Detailed description including Helium platform setup, feature configuration, and initial customization"
-    },
-    "Continue with 4-6 phases covering: Helium setup, bespoke development (if needed), integration, testing, deployment"
+    "Create a REALISTIC timeline based on ACTUAL project complexity. Break it into logical phases that make sense for the work required.",
+    "Examples for reference (adjust based on actual needs):",
+    "- Simple chatbot: 2-4 weeks (Phase 1: Setup & Configuration, Phase 2: Development & Testing, Phase 3: Deployment)",
+    "- Moderate project: 4-8 weeks (add Integration and Customization phases)",
+    "- Complex project: 8-16 weeks (add multiple development phases, extensive testing)",
+    "- Enterprise: 16-24+ weeks (add architecture, multiple integrations, extensive testing)",
+    "Each phase should have: period (e.g., 'Week 1-2'), title (descriptive), and description (what actually happens in that phase)"
   ],
   
   "investment": [
-    {
-      "name": "Implementation Fee",
-      "description": "Project setup, architecture design, initial deployment, and training",
-      "amount": ${implementationFee}
-    },
-    {
-      "name": "Helium AI License - Annual",
-      "description": "Annual subscription to Helium AI platform with full feature access",
-      "amount": ${heliumAnnual}
-    },
-    {
-      "name": "Bespoke Development",
-      "description": "Custom development for requirements not covered by Helium features (calculate based on estimated hours × ${devRate}/hour)",
-      "amount": [CALCULATE: Estimate 40-200 hours based on Helium coverage % - lower coverage = more hours]
-    },
-    {
-      "name": "Deployment & Infrastructure",
-      "description": "Cloud deployment setup and infrastructure configuration",
-      "amount": ${deploymentCost}
-    },
-    {
-      "name": "Support & Maintenance (6 months)",
-      "description": "Standard support including bug fixes, updates, and maintenance",
-      "amount": ${maintenanceCost * 6}
-    }
+    "Calculate REALISTIC investment breakdown based on ACTUAL project needs:",
+    "1. Implementation Fee: Only include if significant setup/architecture work is needed. For simple projects, this may be minimal or included in development.",
+    "   - Amount: ${isIndiaMarket ? '₹' : '$'}${implementationFee.toLocaleString()} (adjust down for simple projects, full amount for complex)",
+    "2. Helium AI License - Annual: Choose appropriate tier based on ACTUAL usage needs:",
+    "   - Starter: $3,000-8,000/year (simple projects, low usage)",
+    "   - Professional: $8,000-15,000/year (moderate projects, standard usage)",
+    "   - Enterprise: $15,000-30,000/year (complex projects, high usage)",
+    "   - Select realistic amount based on project scale",
+    "3. Bespoke Development: Calculate based on ACTUAL hours needed × ${devRate}/hour",
+    "   - Simple chatbot: 20-40 hours = ${20 * devRate} to ${40 * devRate}",
+    "   - Moderate project: 60-120 hours = ${60 * devRate} to ${120 * devRate}",
+    "   - Complex project: 150-250 hours = ${150 * devRate} to ${250 * devRate}",
+    "   - Enterprise: 300+ hours = ${300 * devRate}+",
+    "   - Apply complexity multiplier: ${input.complexity === 'simple' ? '1.0x' : input.complexity === 'moderate' ? '1.5x' : input.complexity === 'complex' ? '2.0x' : '3.0x'}",
+    "4. Deployment & Infrastructure: Adjust based on complexity",
+    "   - Simple: ${isIndiaMarket ? '₹' : '$'}${Math.round(deploymentCost * 0.5).toLocaleString()}",
+    "   - Moderate: ${isIndiaMarket ? '₹' : '$'}${deploymentCost.toLocaleString()}",
+    "   - Complex: ${isIndiaMarket ? '₹' : '$'}${Math.round(deploymentCost * 1.5).toLocaleString()}",
+    "5. Support & Maintenance: Include 6 months",
+    "   - Amount: ${maintenanceCost * 6}",
+    "IMPORTANT: Only include items that make sense for the ACTUAL project. A simple chatbot shouldn't have enterprise-level costs!"
   ],
   
   "deliverables": [
@@ -351,16 +536,27 @@ ${input.timeline ? `- Timeline: ${input.timeline}` : ''}
   ]
 }
 
-**CRITICAL REQUIREMENTS:**
-1. MUST mention Helium AI features and capabilities in executive summary and project scope
-2. MUST calculate bespoke development hours based on Helium coverage (lower coverage = more hours)
-3. MUST use the exact pricing provided for ${market} market
-4. MUST reference which of the 4 solutions is being proposed
-5. MUST emphasize the feature-match first approach
-6. Investment amounts must use the exact values provided or calculated based on hours × rate
-7. Timeline should reflect project complexity based on Helium coverage
-8. Technology stack MUST mention Helium AI platform
-9. All content should be professional and tailored to Neural Arc's standards
+**Neural Arc Company Information:**
+- Company Name: Neural Arc
+- Address 1 (India): 3rd Floor, Trimurti HoneyGold, Range Hill Rd, Sinchan Nagar, Ashok Nagar, Pune, Maharashtra 411016
+- Address 2 (United States): 300 Creek View Road, Suite 209, Newark, Delaware 19711
+
+**CRITICAL REQUIREMENTS - BE REALISTIC:**
+1. Analyze the ACTUAL project requirements - don't force-fit templates
+2. Create REALISTIC timelines based on actual complexity (simple chatbot = 2-4 weeks, NOT 20 weeks)
+3. ${input.expectedTime ? `IMPORTANT: Client expects timeline: ${input.expectedTime}. Try to align with this, but be realistic - if their expectation is too short for the complexity, explain why and propose a realistic alternative.` : ''}
+4. Calculate REALISTIC costs based on actual development hours needed
+5. ${input.minimumBudget ? `IMPORTANT: Client has minimum budget of ${input.currency || 'USD'} ${input.minimumBudget.toLocaleString()}. Ensure the proposal meets or exceeds this budget while being realistic.` : ''}
+6. Only include investment items that make sense for the project scale
+7. A simple chatbot should cost $5k-15k, NOT $50k+
+8. A complex enterprise system can cost $50k-100k+
+9. Timeline phases should reflect ACTUAL work being done
+10. Project scope should match the ACTUAL requirements described
+11. Use Helium AI features appropriately - don't over-engineer simple needs
+12. All amounts must be realistic and make business sense
+13. Technology stack MUST mention Helium AI platform
+14. All content should be professional and tailored to Neural Arc's standards
+15. ${input.country ? `Consider ${input.country} market context and pricing expectations when creating the proposal.` : ''}
 
 Return ONLY the JSON object, nothing else.`
 

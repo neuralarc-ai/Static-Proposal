@@ -11,7 +11,7 @@ import { RiArrowLeftLine, RiDownloadLine, RiCheckLine, RiCloseLine, RiCodeLine, 
 import { formatCurrency, formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import type { ProposalContent } from '@/types'
-import { generateProposalPDF } from '@/lib/pdf/generator'
+// PDF export now handled via API endpoint
 
 interface Proposal {
   id: string
@@ -111,22 +111,31 @@ export default function AdminProposalViewPage() {
     if (!proposal) return
     
     setExportingPDF(true)
+    setError(null)
     try {
-      const proposalElement = document.getElementById('proposal-document')
-      if (!proposalElement) {
-        throw new Error('Proposal element not found')
+      // Call server-side API endpoint for PDF generation with AI drafting
+      const response = await fetch(`/api/proposals/${proposal.id}/export-pdf`)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to generate PDF')
       }
 
-      const filename = `Proposal-${proposal.id.slice(-6).toUpperCase()}-${proposal.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}.pdf`
+      // Get the PDF blob
+      const blob = await response.blob()
       
-      await generateProposalPDF({
-        element: proposalElement,
-        filename,
-        title: proposal.title,
-      })
+      // Create download link
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Proposal-${proposal.id.slice(-6).toUpperCase()}-${proposal.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
     } catch (err) {
       console.error('Error exporting PDF:', err)
-      setError('Failed to export PDF. Please try again.')
+      setError(err instanceof Error ? err.message : 'Failed to export PDF. Please try again.')
     } finally {
       setExportingPDF(false)
     }
@@ -219,7 +228,13 @@ export default function AdminProposalViewPage() {
     termsAndConditions: proposal.termsAndConditions || proposal.terms_and_conditions || [],
   }
 
-  const subtotal = content.investment.reduce((sum, item) => sum + item.amount, 0)
+  const subtotal = content.investment && Array.isArray(content.investment)
+    ? content.investment.reduce((sum, item) => {
+        if (!item || typeof item !== 'object') return sum
+        const amount = typeof item.amount === 'number' ? item.amount : 0
+        return sum + amount
+      }, 0)
+    : 0
   const tax = 0
   const total = subtotal + tax
 
@@ -319,8 +334,8 @@ export default function AdminProposalViewPage() {
               <div className="space-y-3">
                 {content.projectScope.map((scope, idx) => {
                   // Handle both string and object formats
-                  const scopeText = typeof scope === 'string' ? scope : scope.title || scope
-                  const scopeDesc = typeof scope === 'object' && scope.description ? scope.description : ''
+                  const scopeText = typeof scope === 'string' ? scope : (scope as any)?.title || String(scope)
+                  const scopeDesc = typeof scope === 'object' && scope !== null && 'description' in scope ? (scope as any).description : ''
                   
                   return (
                     <div key={idx} className="flex gap-3 items-start">
@@ -360,23 +375,34 @@ export default function AdminProposalViewPage() {
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Investment Breakdown</h2>
             <div className="space-y-4">
-              {content.investment.map((item, idx) => (
-                <div key={idx} className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      {item.name.includes('License') && <RiThunderstormsLine className="w-4 h-4" />}
-                      {item.name.includes('Development') && <RiCodeLine className="w-4 h-4" />}
-                      {item.name.includes('Deployment') && <RiRocketLine className="w-4 h-4" />}
-                      {item.name.includes('Maintenance') && <RiToolsLine className="w-4 h-4" />}
-                      <strong>{item.name}</strong>
+              {content.investment && Array.isArray(content.investment) && content.investment.map((item, idx) => {
+                // Handle different data structures - ensure item exists and has required properties
+                if (!item || (typeof item !== 'object')) {
+                  return null
+                }
+                
+                const itemName = item.name || (item as any).title || 'Investment Item'
+                const itemDescription = item.description || (item as any).desc || ''
+                const itemAmount = typeof item.amount === 'number' ? item.amount : 0
+                
+                return (
+                  <div key={idx} className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        {itemName && typeof itemName === 'string' && itemName.includes('License') && <RiThunderstormsLine className="w-4 h-4" />}
+                        {itemName && typeof itemName === 'string' && itemName.includes('Development') && <RiCodeLine className="w-4 h-4" />}
+                        {itemName && typeof itemName === 'string' && itemName.includes('Deployment') && <RiRocketLine className="w-4 h-4" />}
+                        {itemName && typeof itemName === 'string' && itemName.includes('Maintenance') && <RiToolsLine className="w-4 h-4" />}
+                        <strong>{itemName}</strong>
+                      </div>
+                      {itemDescription && <p className="text-gray-600 text-sm m-0">{itemDescription}</p>}
                     </div>
-                    <p className="text-gray-600 text-sm m-0">{item.description}</p>
+                    <div className="text-right">
+                      <p className="text-xl font-semibold m-0">{formatCurrency(itemAmount, proposal.currency)}</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xl font-semibold m-0">{formatCurrency(item.amount, proposal.currency)}</p>
-                  </div>
-                </div>
-              ))}
+                )
+              }).filter(Boolean)}
             </div>
             <div className="mt-6 pt-6 border-t-2 border-gray-200">
               <div className="flex justify-between items-center mb-2">
@@ -436,6 +462,30 @@ export default function AdminProposalViewPage() {
                   <p className="m-0 text-gray-700">{term}</p>
                 </div>
               ))}
+            </div>
+          </section>
+
+          {/* Company Addresses Footer */}
+          <section className="mt-12 pt-8 border-t-2 border-gray-200">
+            <h2 className="text-xl font-semibold mb-6">Neural Arc</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">India Office</h3>
+                <p className="text-gray-600 text-sm m-0 leading-relaxed">
+                  3rd Floor, Trimurti HoneyGold<br />
+                  Range Hill Rd, Sinchan Nagar<br />
+                  Ashok Nagar, Pune<br />
+                  Maharashtra 411016
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">United States Office</h3>
+                <p className="text-gray-600 text-sm m-0 leading-relaxed">
+                  300 Creek View Road<br />
+                  Suite 209<br />
+                  Newark, Delaware 19711
+                </p>
+              </div>
             </div>
           </section>
         </Card>

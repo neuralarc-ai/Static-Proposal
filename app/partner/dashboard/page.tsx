@@ -7,7 +7,7 @@ import Card from '@/components/ui/card'
 import Button from '@/components/ui/button'
 import Badge from '@/components/ui/badge'
 import Modal from '@/components/ui/modal'
-import { RiSendPlaneLine, RiSparklingLine, RiEyeLine } from 'react-icons/ri'
+import { RiSendPlaneLine, RiSparklingLine, RiEyeLine, RiMagicLine } from 'react-icons/ri'
 import { useAppStore } from '@/lib/store'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import Link from 'next/link'
@@ -40,7 +40,16 @@ export default function PartnerDashboardPage() {
   const [clientName, setClientName] = useState('')
   const [projectDescription, setProjectDescription] = useState('')
   const [requirements, setRequirements] = useState<string[]>([])
+  const [industry, setIndustry] = useState('')
+  const [solutionType, setSolutionType] = useState('')
+  const [complexity, setComplexity] = useState('moderate')
+  const [teamSize, setTeamSize] = useState('medium')
+  const [licenseTier, setLicenseTier] = useState('professional')
+  const [minimumBudget, setMinimumBudget] = useState('')
+  const [country, setCountry] = useState('')
+  const [expectedTime, setExpectedTime] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [rephrasing, setRephrasing] = useState(false)
 
   // Fetch proposals
   useEffect(() => {
@@ -117,6 +126,37 @@ export default function PartnerDashboardPage() {
     setShowGenerateModal(true)
   }
 
+  const handleRephraseDescription = async () => {
+    if (!projectDescription.trim()) {
+      setError('Please enter a description first')
+      return
+    }
+
+    setRephrasing(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/text/rephrase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: projectDescription }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setProjectDescription(data.rephrasedText)
+      } else {
+        setError(data.error || 'Failed to enhance description')
+      }
+    } catch (err) {
+      console.error('Error enhancing description:', err)
+      setError('Failed to enhance description. Please try again.')
+    } finally {
+      setRephrasing(false)
+    }
+  }
+
   const handleSubmitProposal = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!clientName.trim()) {
@@ -145,6 +185,11 @@ export default function PartnerDashboardPage() {
           clientName: clientName.trim(),
           projectDescription: projectDescription.trim(),
           requirements: reqs,
+          industry: industry || undefined,
+          solutionType: solutionType || undefined,
+          complexity: complexity,
+          teamSize: teamSize,
+          licenseTier: licenseTier,
         }),
       })
 
@@ -365,7 +410,88 @@ export default function PartnerDashboardPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2">Project Description *</label>
+            <label className="block text-sm font-semibold mb-2">Industry *</label>
+            <select
+              value={industry}
+              onChange={(e) => {
+                setIndustry(e.target.value)
+                setSolutionType('') // Reset solution type when industry changes
+              }}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+            >
+              <option value="">Select Industry</option>
+              <option value="insurance">Insurance</option>
+              <option value="banking">Banking & Finance</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="finance">Finance & Investment</option>
+              <option value="consulting">Consulting</option>
+            </select>
+          </div>
+
+          {industry && (
+            <div>
+              <label className="block text-sm font-semibold mb-2">Solution Type *</label>
+              <select
+                value={solutionType}
+                onChange={(e) => setSolutionType(e.target.value)}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              >
+                <option value="">Select Solution</option>
+                {industry === 'insurance' && (
+                  <>
+                    <option value="claims-processing">AI-Powered Claims Processing System</option>
+                    <option value="underwriting">Intelligent Underwriting Assistant</option>
+                    <option value="customer-service">Customer Service AI Chatbot</option>
+                  </>
+                )}
+                {industry === 'banking' && (
+                  <>
+                    <option value="fraud-detection">Fraud Detection & Prevention System</option>
+                    <option value="loan-underwriting">AI-Powered Loan Underwriting System</option>
+                    <option value="banking-assistant">Personalized Banking Assistant</option>
+                  </>
+                )}
+                {industry === 'healthcare' && (
+                  <>
+                    <option value="clinical-decision">Clinical Decision Support System</option>
+                    <option value="patient-engagement">Patient Engagement & Monitoring Platform</option>
+                    <option value="claims-automation">Medical Claims Processing Automation</option>
+                  </>
+                )}
+                {industry === 'finance' && (
+                  <>
+                    <option value="trading-platform">Algorithmic Trading & Market Analysis Platform</option>
+                    <option value="credit-risk">Credit Risk Assessment System</option>
+                    <option value="financial-advisory">Financial Advisory Chatbot</option>
+                  </>
+                )}
+                {industry === 'consulting' && (
+                  <>
+                    <option value="business-intelligence">AI-Powered Business Intelligence Platform</option>
+                    <option value="document-analysis">Document Analysis & Summarization System</option>
+                    <option value="crm-assistant">Client Engagement & CRM AI Assistant</option>
+                  </>
+                )}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-semibold">Project Description *</label>
+              <button
+                type="button"
+                onClick={handleRephraseDescription}
+                disabled={rephrasing || !projectDescription.trim()}
+                className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Enhance and expand the description"
+              >
+                <RiMagicLine className={`w-4 h-4 ${rephrasing ? 'animate-spin' : ''}`} />
+                {rephrasing ? 'Enhancing...' : 'Enhance'}
+              </button>
+            </div>
             <textarea
               value={projectDescription}
               onChange={(e) => setProjectDescription(e.target.value)}
@@ -376,6 +502,105 @@ export default function PartnerDashboardPage() {
             />
             <p className="text-xs text-gray-500 mt-1">
               This will be used to generate a comprehensive proposal with pricing, timeline, and deliverables.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2">Complexity</label>
+              <select
+                value={complexity}
+                onChange={(e) => setComplexity(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              >
+                <option value="simple">Simple (Basic features)</option>
+                <option value="moderate">Moderate (Standard features)</option>
+                <option value="complex">Complex (Advanced features)</option>
+                <option value="enterprise">Enterprise (Full platform)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">Team Size</label>
+              <select
+                value={teamSize}
+                onChange={(e) => setTeamSize(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              >
+                <option value="small">Small (2-4 developers)</option>
+                <option value="medium">Medium (5-8 developers)</option>
+                <option value="large">Large (9-15 developers)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Helium License Tier</label>
+            <select
+              value={licenseTier}
+              onChange={(e) => setLicenseTier(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+            >
+              <option value="starter">Starter ($300-800/month)</option>
+              <option value="professional">Professional ($800-1,500/month)</option>
+              <option value="enterprise">Enterprise ($1,500-3,000/month)</option>
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2">Country *</label>
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              >
+                <option value="">Select Country</option>
+                <option value="United States">United States (USD)</option>
+                <option value="India">India (INR)</option>
+                <option value="United Kingdom">United Kingdom (GBP)</option>
+                <option value="Australia">Australia (USD)</option>
+                <option value="Singapore">Singapore (USD)</option>
+                <option value="Europe">Europe (EUR)</option>
+                <option value="Other">Other (USD)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">Minimum Budget</label>
+              <input
+                type="number"
+                value={minimumBudget}
+                onChange={(e) => setMinimumBudget(e.target.value)}
+                placeholder="e.g., 10000"
+                min="0"
+                step="100"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Optional: Minimum budget constraint
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Expected Timeline</label>
+            <select
+              value={expectedTime}
+              onChange={(e) => setExpectedTime(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+            >
+              <option value="">No specific timeline</option>
+              <option value="2-4 weeks">2-4 weeks (Urgent)</option>
+              <option value="1-2 months">1-2 months (Fast)</option>
+              <option value="2-4 months">2-4 months (Standard)</option>
+              <option value="4-6 months">4-6 months (Moderate)</option>
+              <option value="6-8 months">6-8 months (Extended)</option>
+              <option value="8+ months">8+ months (Long-term)</option>
+            </select>
+            <p className="text-xs text-gray-500 mt-1">
+              Client&apos;s expected timeline (will be considered in proposal)
             </p>
           </div>
         </form>
