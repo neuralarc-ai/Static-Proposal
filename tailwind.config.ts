@@ -20,8 +20,9 @@ const config: Config = {
         verdant: '#27584F',
       },
       fontFamily: {
-        primary: ['var(--font-manrope)', 'sans-serif'],
-        secondary: ['var(--font-sora)', 'sans-serif'],
+        primary: ['var(--font-manrope)', 'Manrope', 'sans-serif'],
+        secondary: ['var(--font-sora)', 'Sora', 'sans-serif'],
+        sans: ['var(--font-manrope)', 'Manrope', 'sans-serif'],
       },
       borderRadius: {
         sm: '8px',

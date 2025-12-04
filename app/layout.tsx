@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${manrope.variable} ${sora.variable}`}>
-      <body>{children}</body>
+      <body className={`${manrope.className} font-primary`}>{children}</body>
     </html>
   )
 }

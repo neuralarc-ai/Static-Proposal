@@ -343,7 +343,7 @@ export default function ProposalViewPage() {
         )}
         <div className="space-y-4">
           <p className="text-gray-600">
-            Have questions about this proposal? Send a message to the admin team, and they'll respond via email.
+            Have questions about this proposal? Send a message to the admin team, and they&apos;ll respond via email.
           </p>
           <div>
             <label className="block text-sm font-semibold mb-2">Your Question</label>
