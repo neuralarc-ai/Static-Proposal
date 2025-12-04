@@ -16,13 +16,21 @@ import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-// Route segment config - ensure this route is always handled server-side
-export const fetchCache = 'force-no-store'
-export const revalidate = 0
-
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
 })
+
+// Handle GET for testing (should return method not allowed for actual login)
+export async function GET() {
+  return NextResponse.json(
+    {
+      success: false,
+      error: 'Use POST method to login',
+      message: 'This endpoint requires POST method with PIN in request body',
+    },
+    { status: 405 }
+  )
+}
 
 // Handle OPTIONS for CORS preflight
 export async function OPTIONS() {
