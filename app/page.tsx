@@ -76,6 +76,7 @@ export default function PartnerLoginPage() {
         },
         body: JSON.stringify({
           pin: pinString,
+          role: 'partner', // Explicitly pass role for path-based routing
         }),
       })
 
