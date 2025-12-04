@@ -21,6 +21,11 @@ export function middleware(request: NextRequest) {
   // Get the path
   const path = url.pathname
   
+  // CRITICAL: Skip middleware entirely for API routes
+  if (path.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
   // Admin subdomain routing
   if (isAdminSubdomain) {
     // If on root, redirect to admin login
@@ -42,7 +47,7 @@ export function middleware(request: NextRequest) {
     }
     
     // Allow admin routes
-    if (path.startsWith('/admin/') || path.startsWith('/api/')) {
+    if (path.startsWith('/admin/')) {
       return NextResponse.next()
     }
     
