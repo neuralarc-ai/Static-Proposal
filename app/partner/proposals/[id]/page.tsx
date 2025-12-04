@@ -10,6 +10,7 @@ import { RiArrowLeftLine, RiMessageLine, RiDownloadLine, RiSendPlaneLine, RiChec
 import { formatCurrency, formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import type { ProposalContent } from '@/types'
+import { generateProposalPDF } from '@/lib/pdf/generator'
 
 interface Proposal {
   id: string
@@ -32,6 +33,7 @@ export default function ProposalViewPage() {
   const [infoMessage, setInfoMessage] = useState('')
   const [sendingRequest, setSendingRequest] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [exportingPDF, setExportingPDF] = useState(false)
 
   useEffect(() => {
     if (params.id) {
@@ -58,8 +60,29 @@ export default function ProposalViewPage() {
     }
   }
 
-  const handleExportPDF = () => {
-    window.print()
+  const handleExportPDF = async () => {
+    if (!proposal) return
+    
+    setExportingPDF(true)
+    try {
+      const proposalElement = document.getElementById('proposal-document')
+      if (!proposalElement) {
+        throw new Error('Proposal element not found')
+      }
+
+      const filename = `Proposal-${proposal.id.slice(-6).toUpperCase()}-${proposal.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}.pdf`
+      
+      await generateProposalPDF({
+        element: proposalElement,
+        filename,
+        title: proposal.title,
+      })
+    } catch (err) {
+      console.error('Error exporting PDF:', err)
+      setError('Failed to export PDF. Please try again.')
+    } finally {
+      setExportingPDF(false)
+    }
   }
 
   const handleRequestInfo = () => {
@@ -147,14 +170,23 @@ export default function ProposalViewPage() {
               <RiMessageLine className="w-5 h-5" />
               Request More Info
             </Button>
-            <Button onClick={handleExportPDF}>
-              <RiDownloadLine className="w-5 h-5" />
-              Export as PDF
+            <Button onClick={handleExportPDF} disabled={exportingPDF}>
+              {exportingPDF ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Generating PDF...
+                </>
+              ) : (
+                <>
+                  <RiDownloadLine className="w-5 h-5" />
+                  Export as PDF
+                </>
+              )}
             </Button>
           </div>
         </div>
 
-        <Card className="proposal-document">
+        <Card id="proposal-document" className="proposal-document">
           {/* Header */}
           <div className="flex items-start justify-between mb-8 pb-8 border-b-2 border-gray-200">
             <div>

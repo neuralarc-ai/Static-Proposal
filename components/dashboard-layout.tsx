@@ -2,7 +2,7 @@
 
 import { useAppStore } from '@/lib/store'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Sidebar from './sidebar'
 import type { User } from '@/types'
 
@@ -15,15 +15,15 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
   const { currentUser, setCurrentUser } = useAppStore()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [hasChecked, setHasChecked] = useState(false)
+  const hasCheckedRef = useRef(false)
 
   useEffect(() => {
-    // Prevent multiple calls
-    if (hasChecked) return
+    // Prevent multiple calls - only run once per mount
+    if (hasCheckedRef.current) return
+    hasCheckedRef.current = true
     
     async function checkAuth() {
       try {
-        setHasChecked(true)
         
         // Check if we have a user in store
         if (currentUser && currentUser.role === role) {
@@ -115,7 +115,8 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
     }
 
     checkAuth()
-  }, [currentUser, role, router, setCurrentUser])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run once on mount
 
   if (loading) {
     return (

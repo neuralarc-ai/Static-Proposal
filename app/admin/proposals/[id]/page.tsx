@@ -7,10 +7,11 @@ import Button from '@/components/ui/button'
 import Modal from '@/components/ui/modal'
 import Card from '@/components/ui/card'
 import Badge from '@/components/ui/badge'
-import { RiArrowLeftLine, RiDownloadLine, RiCheckLine, RiCloseLine, RiCodeLine, RiThunderstormsLine, RiRocketLine, RiToolsLine, RiArchiveLine, RiSmartphoneLine, RiShieldCheckLine, RiBookOpenLine, RiCustomerServiceLine } from 'react-icons/ri'
+import { RiArrowLeftLine, RiDownloadLine, RiCheckLine, RiCloseLine, RiCodeLine, RiThunderstormsLine, RiRocketLine, RiToolsLine } from 'react-icons/ri'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import type { ProposalContent } from '@/types'
+import { generateProposalPDF } from '@/lib/pdf/generator'
 
 interface Proposal {
   id: string
@@ -21,22 +22,22 @@ interface Proposal {
   value: number
   currency: string
   timeline: string
-  executive_summary?: string
-  executiveSummary?: string
-  project_scope?: ProposalContent['projectScope']
-  projectScope?: ProposalContent['projectScope']
-  timeline_phases?: ProposalContent['timeline']
-  timelinePhases?: ProposalContent['timeline']
-  investment_items?: ProposalContent['investment']
-  investment?: ProposalContent['investment']
-  deliverables?: ProposalContent['deliverables']
-  technology_stack?: ProposalContent['technologyStack']
-  technologyStack?: ProposalContent['technologyStack']
-  terms_and_conditions?: ProposalContent['termsAndConditions']
-  termsAndConditions?: ProposalContent['termsAndConditions']
-  created_at?: string
-  createdAt?: string
   content?: ProposalContent
+  executiveSummary?: string
+  executive_summary?: string
+  projectScope?: ProposalContent['projectScope']
+  project_scope?: ProposalContent['projectScope']
+  timelinePhases?: ProposalContent['timeline']
+  timeline_phases?: ProposalContent['timeline']
+  investment?: ProposalContent['investment']
+  investment_items?: ProposalContent['investment']
+  deliverables?: ProposalContent['deliverables']
+  technologyStack?: ProposalContent['technologyStack']
+  technology_stack?: ProposalContent['technologyStack']
+  termsAndConditions?: ProposalContent['termsAndConditions']
+  terms_and_conditions?: ProposalContent['termsAndConditions']
+  createdAt?: string
+  created_at?: string
   users?: {
     id: string
     name: string
@@ -52,6 +53,7 @@ export default function AdminProposalViewPage() {
   const [loading, setLoading] = useState(true)
   const [updatingStatus, setUpdatingStatus] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [exportingPDF, setExportingPDF] = useState(false)
 
   useEffect(() => {
     if (params.id) {
@@ -66,7 +68,7 @@ export default function AdminProposalViewPage() {
       const data = await response.json()
 
       if (data.success) {
-        // Transform API response to match our interface
+        // Transform API response to match partner portal format
         const apiProposal = data.proposal
         const transformedProposal: Proposal = {
           id: apiProposal.id,
@@ -77,20 +79,19 @@ export default function AdminProposalViewPage() {
           value: apiProposal.value,
           currency: apiProposal.currency,
           timeline: apiProposal.timeline,
-          executive_summary: apiProposal.content?.executiveSummary || apiProposal.executive_summary || '',
-          executiveSummary: apiProposal.content?.executiveSummary || apiProposal.executive_summary || '',
-          project_scope: apiProposal.content?.projectScope || apiProposal.project_scope || [],
-          projectScope: apiProposal.content?.projectScope || apiProposal.project_scope || [],
-          timeline_phases: apiProposal.content?.timeline || apiProposal.timeline_phases || [],
-          timelinePhases: apiProposal.content?.timeline || apiProposal.timeline_phases || [],
-          investment_items: apiProposal.content?.investment || apiProposal.investment_items || [],
-          investment: apiProposal.content?.investment || apiProposal.investment_items || [],
-          deliverables: apiProposal.content?.deliverables || apiProposal.deliverables || [],
-          technology_stack: apiProposal.content?.technologyStack || apiProposal.technology_stack,
-          technologyStack: apiProposal.content?.technologyStack || apiProposal.technology_stack,
-          terms_and_conditions: apiProposal.content?.termsAndConditions || apiProposal.terms_and_conditions || [],
-          termsAndConditions: apiProposal.content?.termsAndConditions || apiProposal.terms_and_conditions || [],
-          created_at: apiProposal.createdAt || apiProposal.created_at,
+          content: apiProposal.content || {
+            executiveSummary: apiProposal.executive_summary || '',
+            projectScope: apiProposal.project_scope || [],
+            timeline: apiProposal.timeline_phases || [],
+            investment: apiProposal.investment_items || [],
+            deliverables: apiProposal.deliverables || [],
+            technologyStack: apiProposal.technology_stack || {
+              frontend: '',
+              backend: '',
+              infrastructure: '',
+            },
+            termsAndConditions: apiProposal.terms_and_conditions || [],
+          },
           createdAt: apiProposal.createdAt || apiProposal.created_at,
           users: apiProposal.partner || apiProposal.users,
         }
@@ -106,8 +107,29 @@ export default function AdminProposalViewPage() {
     }
   }
 
-  const handleExportPDF = () => {
-    window.print()
+  const handleExportPDF = async () => {
+    if (!proposal) return
+    
+    setExportingPDF(true)
+    try {
+      const proposalElement = document.getElementById('proposal-document')
+      if (!proposalElement) {
+        throw new Error('Proposal element not found')
+      }
+
+      const filename = `Proposal-${proposal.id.slice(-6).toUpperCase()}-${proposal.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50)}.pdf`
+      
+      await generateProposalPDF({
+        element: proposalElement,
+        filename,
+        title: proposal.title,
+      })
+    } catch (err) {
+      console.error('Error exporting PDF:', err)
+      setError('Failed to export PDF. Please try again.')
+    } finally {
+      setExportingPDF(false)
+    }
   }
 
   const handleStatusUpdate = async (newStatus: 'approved' | 'rejected') => {
@@ -144,7 +166,7 @@ export default function AdminProposalViewPage() {
   if (loading) {
     return (
       <DashboardLayout role="admin">
-        <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+        <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-gray-600">Loading proposal...</p>
@@ -158,7 +180,7 @@ export default function AdminProposalViewPage() {
     return (
       <DashboardLayout role="admin">
         <div className="text-center py-12">
-          <p className="text-accent mb-4">{error || 'Proposal not found.'}</p>
+          <p className="text-gray-600 mb-4">{error || 'Proposal not found.'}</p>
           <Button onClick={() => router.push('/admin/proposals')}>
             <RiArrowLeftLine className="w-5 h-5" />
             Back to Proposals
@@ -183,274 +205,241 @@ export default function AdminProposalViewPage() {
     }
   }
 
-  const investmentItems = proposal.investment_items || proposal.investment || []
-  const subtotal = investmentItems.reduce((sum, item) => sum + item.amount, 0)
+  const content = proposal.content || {
+    executiveSummary: proposal.executiveSummary || proposal.executive_summary || '',
+    projectScope: proposal.projectScope || proposal.project_scope || [],
+    timeline: proposal.timelinePhases || proposal.timeline_phases || [],
+    investment: proposal.investment || proposal.investment_items || [],
+    deliverables: proposal.deliverables || [],
+    technologyStack: proposal.technologyStack || proposal.technology_stack || {
+      frontend: '',
+      backend: '',
+      infrastructure: '',
+    },
+    termsAndConditions: proposal.termsAndConditions || proposal.terms_and_conditions || [],
+  }
+
+  const subtotal = content.investment.reduce((sum, item) => sum + item.amount, 0)
   const tax = 0
   const total = subtotal + tax
 
   return (
     <DashboardLayout role="admin">
-      <div className="mb-6">
-        <Button variant="ghost" onClick={() => router.push('/admin/proposals')} className="mb-4">
-          <RiArrowLeftLine className="w-5 h-5" />
-          Back to Proposals
-        </Button>
-
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-secondary font-bold mb-2">{proposal.title}</h1>
-            <div className="flex items-center gap-4 text-gray-600">
-              <span>
-                <strong>Partner:</strong> {proposal.users?.name || 'Unknown'} - {proposal.users?.company || 'N/A'}
-              </span>
-              <span>•</span>
-              <span>
-                <strong>Client:</strong> {proposal.client_name || proposal.client}
-              </span>
-              <span>•</span>
-              <span>
-                <strong>Created:</strong> {formatDate(proposal.created_at || proposal.createdAt || '')}
-              </span>
-            </div>
-          </div>
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <Button variant="secondary" onClick={() => router.back()}>
+            <RiArrowLeftLine className="w-5 h-5" />
+            Back
+          </Button>
           <div className="flex items-center gap-3">
             <Badge variant={getStatusVariant(proposal.status)}>{proposal.status}</Badge>
-            <Button onClick={handleExportPDF}>
-              <RiDownloadLine className="w-5 h-5" />
-              Export PDF
+            <Button onClick={handleExportPDF} disabled={exportingPDF}>
+              {exportingPDF ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Generating PDF...
+                </>
+              ) : (
+                <>
+                  <RiDownloadLine className="w-5 h-5" />
+                  Export as PDF
+                </>
+              )}
             </Button>
           </div>
         </div>
-      </div>
 
-      {proposal.status === 'draft' || proposal.status === 'pending' ? (
-        <Card className="mb-6 p-4 bg-blue-50 border-blue-200">
-          <div className="flex items-center justify-between">
+        {proposal.status === 'draft' || proposal.status === 'pending' ? (
+          <Card className="mb-6 p-4 bg-blue-50 border-blue-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold mb-1">Review Proposal</h3>
+                <p className="text-sm text-gray-600">Approve or reject this proposal</p>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => handleStatusUpdate('approved')}
+                  disabled={updatingStatus}
+                  className="text-green-700 hover:bg-green-100"
+                >
+                  <RiCheckLine className="w-5 h-5" />
+                  Approve
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleStatusUpdate('rejected')}
+                  disabled={updatingStatus}
+                  className="text-red-700 hover:bg-red-100"
+                >
+                  <RiCloseLine className="w-5 h-5" />
+                  Reject
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ) : null}
+
+        <Card id="proposal-document" className="proposal-document">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-8 pb-8 border-b-2 border-gray-200">
             <div>
-              <h3 className="font-semibold mb-1">Review Proposal</h3>
-              <p className="text-sm text-gray-600">Approve or reject this proposal</p>
+              <Image
+                src="/Neural-light-logo.png"
+                alt="Neural Arc Logo"
+                width={192}
+                height={48}
+                style={{ width: 'auto', height: '48px', objectFit: 'contain' }}
+              />
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant="ghost"
-                onClick={() => handleStatusUpdate('approved')}
-                disabled={updatingStatus}
-                className="text-green-700 hover:bg-green-100"
-              >
-                <RiCheckLine className="w-5 h-5" />
-                Approve
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => handleStatusUpdate('rejected')}
-                disabled={updatingStatus}
-                className="text-red-700 hover:bg-red-100"
-              >
-                <RiCloseLine className="w-5 h-5" />
-                Reject
-              </Button>
+            <div className="text-right">
+              <p className="m-0 font-semibold">Proposal Date</p>
+              <p className="m-0 text-gray-600">{formatDate(proposal.createdAt || proposal.created_at || '')}</p>
+              <p className="m-0 mt-2 font-semibold">Proposal ID</p>
+              <p className="m-0 text-gray-600">PROP-{proposal.id.slice(-6).toUpperCase()}</p>
             </div>
           </div>
-        </Card>
-      ) : null}
 
-      <div className="space-y-6 print:space-y-4">
-        {/* Header */}
-        <Card className="print:border-0 print:shadow-none">
-          <div className="text-center mb-8">
-            <Image
-              src="/Neural-light-logo.png"
-              alt="Neural Arc Logo"
-              width={200}
-              height={50}
-              className="mx-auto mb-4"
-              style={{ width: 'auto', height: '48px', objectFit: 'contain' }}
-            />
-            <h2 className="text-4xl font-secondary font-bold mb-2">{proposal.title}</h2>
-            <p className="text-xl text-gray-600">Prepared for {proposal.client_name || proposal.client}</p>
-            <p className="text-sm text-gray-500 mt-2">Date: {formatDate(proposal.created_at || proposal.createdAt || '')}</p>
-          </div>
-        </Card>
+          {/* Title */}
+          <h1 className="text-4xl font-secondary font-bold mb-8">{proposal.title}</h1>
 
-        {/* Executive Summary */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Executive Summary</h3>
-          <div className="prose max-w-none">
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-              {proposal.executive_summary || proposal.executiveSummary || ''}
-            </p>
-          </div>
-        </Card>
+          {/* Executive Summary */}
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Executive Summary</h2>
+            <p className="text-gray-700 whitespace-pre-line">{content.executiveSummary}</p>
+          </section>
 
-        {/* Project Scope */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Project Scope</h3>
-          <ul className="space-y-3">
-            {(proposal.project_scope || proposal.projectScope || []).map((scope, index) => {
-              const scopeObj = typeof scope === 'object' ? scope : { title: scope, description: '' }
-              return (
-                <li key={index} className="flex items-start gap-3">
-                  <span className="text-primary font-bold mt-1">•</span>
-                  <div>
-                    <strong className="text-gray-900">{scopeObj.title || scope}</strong>
-                    {scopeObj.description && (
-                      <p className="text-gray-600 mt-1">{scopeObj.description}</p>
-                    )}
+          {/* Project Scope */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-secondary font-semibold mb-6 pb-2 border-b border-gray-200">Project Scope</h2>
+            
+            {/* Core Features */}
+            <div className="mb-6">
+              <h3 className="text-xl font-secondary font-semibold mb-4">Core Features</h3>
+              <div className="space-y-3">
+                {content.projectScope.map((scope, idx) => {
+                  // Handle both string and object formats
+                  const scopeText = typeof scope === 'string' ? scope : scope.title || scope
+                  const scopeDesc = typeof scope === 'object' && scope.description ? scope.description : ''
+                  
+                  return (
+                    <div key={idx} className="flex gap-3 items-start">
+                      <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="m-0 font-semibold text-gray-900">{scopeText}</p>
+                        {scopeDesc && (
+                          <p className="m-0 text-gray-600 text-sm mt-1">{scopeDesc}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* Timeline */}
+          <section className="mb-8">
+            <h2 className="text-2xl font-secondary font-semibold mb-6 pb-2 border-b border-gray-200">Project Timeline</h2>
+            <div className="space-y-6">
+              {content.timeline.map((phase, idx) => (
+                <div key={idx} className="border-l-4 border-primary pl-4 pb-4 last:pb-0">
+                  <div className="mb-2">
+                    <strong className="text-primary text-lg">{phase.period}</strong>
                   </div>
-                </li>
-              )
-            })}
-          </ul>
-        </Card>
-
-        {/* Timeline */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Project Timeline</h3>
-          <div className="space-y-4">
-            {(proposal.timeline_phases || proposal.timelinePhases || []).map((phase, index) => {
-              const phaseObj = typeof phase === 'object' ? phase : { period: '', title: phase, description: '' }
-              return (
-                <div key={index} className="border-l-4 border-primary pl-4 pb-4 last:pb-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-primary font-bold">Phase {index + 1}</span>
-                    {phaseObj.period && (
-                      <span className="text-sm text-gray-600">({phaseObj.period})</span>
-                    )}
-                  </div>
-                  <h4 className="font-semibold text-gray-900">{phaseObj.title || phaseObj.period}</h4>
-                  {phaseObj.description && (
-                    <p className="text-gray-600 mt-1">{phaseObj.description}</p>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </Card>
-
-        {/* Investment */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Investment Breakdown</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700 border-b border-gray-200">
-                    Item
-                  </th>
-                  <th className="text-left p-4 text-xs font-semibold uppercase tracking-wider text-gray-700 border-b border-gray-200">
-                    Description
-                  </th>
-                  <th className="text-right p-4 text-xs font-semibold uppercase tracking-wider text-gray-700 border-b border-gray-200">
-                    Amount
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {(proposal.investment_items || proposal.investment || []).map((item, index) => (
-                  <tr key={index}>
-                    <td className="p-4 border-b border-gray-200 font-semibold">{item.name}</td>
-                    <td className="p-4 border-b border-gray-200 text-gray-600">{item.description}</td>
-                    <td className="p-4 border-b border-gray-200 text-right font-semibold">
-                      {formatCurrency(item.amount, proposal.currency)}
-                    </td>
-                  </tr>
-                ))}
-                <tr>
-                  <td colSpan={2} className="p-4 text-right font-semibold">
-                    Total
-                  </td>
-                  <td className="p-4 text-right font-bold text-xl">
-                    {formatCurrency(total, proposal.currency)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </Card>
-
-        {/* Deliverables */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Deliverables</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(proposal.deliverables || []).map((deliverable, index) => {
-              const iconMap: Record<string, typeof RiArchiveLine> = {
-                RiArchiveLine,
-                RiSmartphoneLine,
-                RiShieldCheckLine,
-                RiBookOpenLine,
-                RiCustomerServiceLine,
-                RiCodeLine,
-                RiThunderstormsLine,
-                RiRocketLine,
-                RiToolsLine,
-              }
-              const deliverableObj = typeof deliverable === 'object' ? deliverable : { icon: 'RiArchiveLine', title: deliverable, description: '' }
-              const Icon = deliverableObj.icon ? iconMap[deliverableObj.icon] || RiArchiveLine : RiArchiveLine
-              const title = deliverableObj.title || deliverable
-              const description = deliverableObj.description || ''
-
-              return (
-                <div key={index} className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg">
-                  <Icon className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">{title}</h4>
-                    {description && <p className="text-sm text-gray-600">{description}</p>}
+                    <h3 className="font-semibold text-gray-900 mb-2">{phase.title}</h3>
+                    <p className="text-gray-600 m-0 leading-relaxed">{phase.description}</p>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-        </Card>
+              ))}
+            </div>
+          </section>
 
-        {/* Technology Stack */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Technology Stack</h3>
-          {(proposal.technology_stack || proposal.technologyStack) && (
+          {/* Investment Breakdown */}
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Investment Breakdown</h2>
+            <div className="space-y-4">
+              {content.investment.map((item, idx) => (
+                <div key={idx} className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      {item.name.includes('License') && <RiThunderstormsLine className="w-4 h-4" />}
+                      {item.name.includes('Development') && <RiCodeLine className="w-4 h-4" />}
+                      {item.name.includes('Deployment') && <RiRocketLine className="w-4 h-4" />}
+                      {item.name.includes('Maintenance') && <RiToolsLine className="w-4 h-4" />}
+                      <strong>{item.name}</strong>
+                    </div>
+                    <p className="text-gray-600 text-sm m-0">{item.description}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xl font-semibold m-0">{formatCurrency(item.amount, proposal.currency)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 pt-6 border-t-2 border-gray-200">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-semibold">Subtotal</span>
+                <span className="font-semibold">{formatCurrency(subtotal, proposal.currency)}</span>
+              </div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-600">Tax</span>
+                <span className="text-gray-600">{formatCurrency(tax, proposal.currency)}</span>
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                <span className="text-2xl font-bold">Total</span>
+                <span className="text-2xl font-bold">{formatCurrency(total, proposal.currency)}</span>
+              </div>
+            </div>
+          </section>
+
+          {/* Deliverables */}
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Deliverables</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {content.deliverables.map((deliverable, idx) => (
+                <div key={idx} className="flex gap-3 p-4 bg-gray-50 rounded-lg">
+                  <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
+                  <p className="m-0 text-gray-700">{deliverable}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Technology Stack */}
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Technology Stack</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <h4 className="font-semibold mb-2">Frontend</h4>
-                <p className="text-gray-600">
-                  {(proposal.technology_stack || proposal.technologyStack)?.frontend || 'Not specified'}
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Frontend</h3>
+                <p className="text-gray-600 text-sm m-0">{content.technologyStack.frontend}</p>
               </div>
-              <div>
-                <h4 className="font-semibold mb-2">Backend</h4>
-                <p className="text-gray-600">
-                  {(proposal.technology_stack || proposal.technologyStack)?.backend || 'Not specified'}
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Backend</h3>
+                <p className="text-gray-600 text-sm m-0">{content.technologyStack.backend}</p>
               </div>
-              <div>
-                <h4 className="font-semibold mb-2">Infrastructure</h4>
-                <p className="text-gray-600">
-                  {(proposal.technology_stack || proposal.technologyStack)?.infrastructure || 'Not specified'}
-                </p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-semibold mb-2">Infrastructure</h3>
+                <p className="text-gray-600 text-sm m-0">{content.technologyStack.infrastructure}</p>
               </div>
             </div>
-          )}
-        </Card>
+          </section>
 
-        {/* Terms and Conditions */}
-        <Card className="print:border-0 print:shadow-none">
-          <h3 className="text-2xl font-secondary font-bold mb-4">Terms and Conditions</h3>
-          <ul className="space-y-2">
-            {(proposal.terms_and_conditions || proposal.termsAndConditions || []).map((term, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <span className="text-primary font-bold mt-1">•</span>
-                <span className="text-gray-700">{term}</span>
-              </li>
-            ))}
-          </ul>
+          {/* Terms and Conditions */}
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Terms and Conditions</h2>
+            <div className="space-y-2">
+              {content.termsAndConditions.map((term, idx) => (
+                <div key={idx} className="flex gap-3">
+                  <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
+                  <p className="m-0 text-gray-700">{term}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </Card>
       </div>
-
-      <style jsx global>{`
-        @media print {
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
     </DashboardLayout>
   )
 }
-
