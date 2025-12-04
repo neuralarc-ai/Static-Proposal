@@ -68,7 +68,12 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/admin/login-new', {
+      // Use absolute URL to avoid subdomain routing issues
+      const apiUrl = typeof window !== 'undefined' 
+        ? `${window.location.origin}/api/auth/admin/login`
+        : '/api/auth/admin/login'
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
