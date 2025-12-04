@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      // Use absolute URL to avoid subdomain routing issues
+      // Use absolute URL to avoid subdomain routing issues on Vercel
       const apiUrl = typeof window !== 'undefined' 
         ? `${window.location.origin}/api/auth/admin/login`
         : '/api/auth/admin/login'
