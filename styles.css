@@ -309,6 +309,8 @@ a:hover {
     border: 2px solid var(--color-gray-300);
     border-radius: var(--radius-md);
     transition: all var(--transition-base);
+    -webkit-text-security: square;
+    text-security: square;
 }
 
 .pin-digit:focus {

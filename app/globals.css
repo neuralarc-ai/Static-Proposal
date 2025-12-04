@@ -34,6 +34,17 @@
   button, input, textarea, select {
     font-family: var(--font-manrope);
   }
+  
+  /* Make password dots square for PIN inputs using custom font approach */
+  input[type="password"][maxlength="1"] {
+    font-family: 'Courier New', 'Courier', monospace !important;
+    letter-spacing: 0;
+  }
+  
+  /* Use square character for password masking */
+  input[type="password"]::placeholder {
+    color: transparent;
+  }
 }
 
 @layer utilities {

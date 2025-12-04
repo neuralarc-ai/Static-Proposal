@@ -137,16 +137,20 @@ export default function PartnerLoginPage() {
               <input
                 key={index}
                 id={`pin-${index}`}
-                type="password"
+                type="text"
                 maxLength={1}
-                value={digit}
-                onChange={(e) => handlePinChange(index, e.target.value)}
+                value={digit ? '▪' : ''}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 1)
+                  handlePinChange(index, value)
+                }}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onPaste={handlePaste}
                 disabled={loading}
-                className="w-16 h-20 text-center text-3xl font-secondary font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-16 h-20 text-center text-2xl font-secondary font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 inputMode="numeric"
                 pattern="[0-9]"
+                style={{ caretColor: 'transparent', fontSize: '1.5rem' }}
               />
             ))}
           </div>
