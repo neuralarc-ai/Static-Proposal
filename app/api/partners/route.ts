@@ -10,6 +10,10 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 const createPartnerSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email address'),

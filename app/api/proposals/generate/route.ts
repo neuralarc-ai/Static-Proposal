@@ -11,6 +11,10 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { generateProposal } from '@/lib/ai/gemini'
 import { z } from 'zod'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 const generateProposalSchema = z.object({
   clientName: z.string().min(1, 'Client name is required'),
   projectDescription: z.string().min(10, 'Project description must be at least 10 characters'),

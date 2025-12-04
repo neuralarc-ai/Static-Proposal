@@ -11,6 +11,10 @@ import { generateToken, getTokenExpiration } from '@/lib/auth/jwt'
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
 })

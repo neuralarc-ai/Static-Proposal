@@ -9,6 +9,10 @@ import { requireAuth } from '@/lib/auth/middleware'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 const updateProposalSchema = z.object({
   status: z.enum(['draft', 'pending', 'approved', 'rejected']).optional(),
 })

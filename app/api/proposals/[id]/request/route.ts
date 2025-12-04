@@ -10,6 +10,10 @@ import { requireAuth } from '@/lib/auth/middleware'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 const createRequestSchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters'),
 })

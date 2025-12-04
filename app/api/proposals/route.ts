@@ -7,6 +7,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/middleware'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 // GET /api/proposals - List proposals
 export async function GET(request: NextRequest) {
   try {
