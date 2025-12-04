@@ -49,7 +49,7 @@ export default function Modal({
     >
       <div
         className={cn(
-          'bg-white rounded-xl w-full max-h-[90vh] overflow-y-auto shadow-xl',
+          'bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto shadow-xl',
           sizeClasses[size]
         )}
         onClick={(e) => e.stopPropagation()}
@@ -58,7 +58,7 @@ export default function Modal({
           <h2 className="text-2xl font-secondary font-bold m-0">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <RiCloseLine className="w-5 h-5" />
           </button>

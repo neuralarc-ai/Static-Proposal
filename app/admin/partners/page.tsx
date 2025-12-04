@@ -169,7 +169,7 @@ export default function AdminPartnersPage() {
       </div>
 
       {error && !isModalOpen && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
           {error}
         </div>
       )}
@@ -269,7 +269,7 @@ export default function AdminPartnersPage() {
         }
       >
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
           </div>
         )}
@@ -281,7 +281,7 @@ export default function AdminPartnersPage() {
               name="name"
               required
               defaultValue={editingPartner?.name}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             />
           </div>
 
@@ -292,7 +292,7 @@ export default function AdminPartnersPage() {
               name="company"
               required
               defaultValue={editingPartner?.company || ''}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             />
           </div>
 
@@ -303,7 +303,7 @@ export default function AdminPartnersPage() {
               name="email"
               required
               defaultValue={editingPartner?.email}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             />
           </div>
 
@@ -316,7 +316,7 @@ export default function AdminPartnersPage() {
               pattern="[0-9]{4}"
               maxLength={4}
               defaultValue=""
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               placeholder="0000"
             />
             {editingPartner && (
@@ -329,7 +329,7 @@ export default function AdminPartnersPage() {
             <select
               name="status"
               defaultValue={editingPartner?.status || 'active'}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             >
               <option value="active">Active</option>
               <option value="pending">Pending</option>

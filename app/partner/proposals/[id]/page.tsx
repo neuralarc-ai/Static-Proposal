@@ -220,7 +220,7 @@ export default function ProposalViewPage() {
             <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Investment Breakdown</h2>
             <div className="space-y-4">
               {proposal.content.investment.map((item, idx) => (
-                <div key={idx} className="flex items-start justify-between p-4 bg-gray-50 rounded-xl">
+                <div key={idx} className="flex items-start justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       {item.name.includes('License') && <RiThunderstormsLine className="w-4 h-4" />}
@@ -258,7 +258,7 @@ export default function ProposalViewPage() {
             <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Deliverables</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {proposal.content.deliverables.map((deliverable, idx) => (
-                <div key={idx} className="flex gap-3 p-4 bg-gray-50 rounded-xl">
+                <div key={idx} className="flex gap-3 p-4 bg-gray-50 rounded-lg">
                   <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
                   <p className="m-0 text-gray-700">{deliverable}</p>
                 </div>
@@ -270,15 +270,15 @@ export default function ProposalViewPage() {
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Technology Stack</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 bg-gray-50 rounded-xl">
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <h3 className="font-semibold mb-2">Frontend</h3>
                 <p className="text-gray-600 text-sm m-0">{proposal.content.technologyStack.frontend}</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-xl">
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <h3 className="font-semibold mb-2">Backend</h3>
                 <p className="text-gray-600 text-sm m-0">{proposal.content.technologyStack.backend}</p>
               </div>
-              <div className="p-4 bg-gray-50 rounded-xl">
+              <div className="p-4 bg-gray-50 rounded-lg">
                 <h3 className="font-semibold mb-2">Infrastructure</h3>
                 <p className="text-gray-600 text-sm m-0">{proposal.content.technologyStack.infrastructure}</p>
               </div>
@@ -337,7 +337,7 @@ export default function ProposalViewPage() {
         }
       >
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
           </div>
         )}
@@ -355,7 +355,7 @@ export default function ProposalViewPage() {
               }}
               rows={6}
               placeholder="Enter your question or request for more information..."
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
             />
           </div>
         </div>

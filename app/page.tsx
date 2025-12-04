@@ -111,7 +111,7 @@ export default function PartnerLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="bg-white border border-gray-200 rounded-xl p-12 max-w-md w-full shadow-xl">
+      <div className="bg-white border border-gray-200 rounded-lg p-12 max-w-md w-full shadow-xl">
         <div className="text-center mb-12">
           <Image
             src="/Neural-light-logo.png"
@@ -125,7 +125,7 @@ export default function PartnerLoginPage() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
           </div>
         )}
@@ -143,7 +143,7 @@ export default function PartnerLoginPage() {
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onPaste={handlePaste}
                 disabled={loading}
-                className="w-16 h-20 text-center text-3xl font-secondary font-bold border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-16 h-20 text-center text-3xl font-secondary font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 inputMode="numeric"
                 pattern="[0-9]"
               />
@@ -153,7 +153,7 @@ export default function PartnerLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-primary text-white py-3.5 px-6 rounded-xl font-semibold text-lg hover:bg-secondary hover:-translate-y-0.5 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            className="w-full flex items-center justify-center gap-2 bg-primary text-white py-3.5 px-6 rounded-lg font-semibold text-lg hover:bg-secondary hover:-translate-y-0.5 hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
           >
             {loading ? (
               <>

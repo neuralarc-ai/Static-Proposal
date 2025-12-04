@@ -156,7 +156,7 @@ export default function AdminDashboardPage() {
           ) : (
             <div className="space-y-4">
               {recentPartners.map((partner) => (
-                <div key={partner.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div key={partner.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div>
                     <p className="font-semibold m-0">{partner.name}</p>
                     <p className="text-sm text-gray-600 m-0">{partner.company || 'No company'}</p>
@@ -183,7 +183,7 @@ export default function AdminDashboardPage() {
           ) : (
             <div className="space-y-4">
               {recentProposals.map((proposal) => (
-                <div key={proposal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div key={proposal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex-1">
                     <p className="font-semibold m-0">{proposal.title}</p>
                     <p className="text-sm text-gray-600 m-0">

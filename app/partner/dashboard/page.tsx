@@ -195,7 +195,7 @@ export default function PartnerDashboardPage() {
           </div>
         </div>
 
-        <div className="flex flex-col h-[400px] border border-gray-200 rounded-xl overflow-hidden">
+        <div className="flex flex-col h-[400px] border border-gray-200 rounded-lg overflow-hidden">
           <div className="flex-1 p-6 overflow-y-auto space-y-4">
             {chatMessages.map((msg, idx) => {
               if (msg.content === 'GENERATE_PROPOSAL_BUTTON') {
@@ -228,7 +228,7 @@ export default function PartnerDashboardPage() {
                     {msg.role === 'user' ? 'P' : 'AI'}
                   </div>
                   <div
-                    className={`max-w-[70%] p-4 rounded-xl ${
+                    className={`max-w-[70%] p-4 rounded-lg ${
                       msg.role === 'user'
                         ? 'bg-primary text-white'
                         : 'bg-gray-100 text-primary'
@@ -247,7 +247,7 @@ export default function PartnerDashboardPage() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Describe your project requirements..."
-                className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
+                className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
                 rows={1}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
@@ -347,7 +347,7 @@ export default function PartnerDashboardPage() {
         }
       >
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
           </div>
         )}
@@ -360,7 +360,7 @@ export default function PartnerDashboardPage() {
               onChange={(e) => setClientName(e.target.value)}
               required
               placeholder="Enter client or company name"
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             />
           </div>
 
@@ -372,7 +372,7 @@ export default function PartnerDashboardPage() {
               required
               rows={6}
               placeholder="Describe the project scope, objectives, and requirements..."
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none"
             />
             <p className="text-xs text-gray-500 mt-1">
               This will be used to generate a comprehensive proposal with pricing, timeline, and deliverables.

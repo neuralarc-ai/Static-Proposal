@@ -172,7 +172,7 @@ export default function AdminPricingPage() {
       </div>
 
       {error && !isModalOpen && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
           {error}
         </div>
       )}
@@ -329,7 +329,7 @@ export default function AdminPricingPage() {
         }
       >
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
           </div>
         )}
@@ -341,7 +341,7 @@ export default function AdminPricingPage() {
               required
               defaultValue={editingPriceList?.currency || 'USD'}
               disabled={!!editingPriceList}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:bg-gray-100"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all disabled:bg-gray-100"
             >
               <option value="USD">USD - United States Dollar</option>
               <option value="INR">INR - Indian Rupee</option>
@@ -362,7 +362,7 @@ export default function AdminPricingPage() {
                 required
                 step="0.01"
                 defaultValue={editingPriceList?.helium_license_monthly}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               />
             </div>
 
@@ -374,7 +374,7 @@ export default function AdminPricingPage() {
                 required
                 step="0.01"
                 defaultValue={editingPriceList?.helium_license_annual}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               />
             </div>
 
@@ -386,7 +386,7 @@ export default function AdminPricingPage() {
                 required
                 step="0.01"
                 defaultValue={editingPriceList?.development_rate_per_hour}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               />
             </div>
 
@@ -398,7 +398,7 @@ export default function AdminPricingPage() {
                 required
                 step="0.01"
                 defaultValue={editingPriceList?.deployment_cost}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               />
             </div>
 
@@ -410,7 +410,7 @@ export default function AdminPricingPage() {
                 required
                 step="0.01"
                 defaultValue={editingPriceList?.maintenance_cost}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
               />
             </div>
           </div>

@@ -27,11 +27,11 @@ const config: Config = {
         sora: ['var(--font-sora)', 'Sora', 'sans-serif'],
       },
       borderRadius: {
-        DEFAULT: '24px', // Default to xl
-        sm: '24px',
-        md: '24px',
-        lg: '24px',
-        xl: '24px',
+        DEFAULT: '16px', // Default to lg
+        sm: '16px',
+        md: '16px',
+        lg: '16px',
+        xl: '16px',
       },
     },
   },

@@ -389,7 +389,7 @@ export default function AdminProposalViewPage() {
               const description = deliverableObj.description || ''
 
               return (
-                <div key={index} className="flex items-start gap-3 p-4 border border-gray-200 rounded-xl">
+                <div key={index} className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg">
                   <Icon className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">{title}</h4>
