@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Ensure API routes are not statically optimized
-  // All API routes should be serverless functions
-  output: 'standalone',
+  // API routes are automatically handled as serverless functions on Vercel
+  // No special configuration needed
 }
 
 module.exports = nextConfig
