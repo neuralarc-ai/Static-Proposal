@@ -2,7 +2,7 @@
  * Admin Login API Endpoint
  * POST /api/auth/admin/login
  * 
- * Authenticates admin users with 4-digit PIN
+ * Authenticates admin users with PIN
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -12,32 +12,14 @@ import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
 // Mark route as dynamic to prevent static generation
-// This ensures the route is available in production
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-
-// Ensure this route is always treated as a serverless function on Vercel
-export const maxDuration = 30
 
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
 })
 
-// Handle OPTIONS for CORS preflight
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  })
-}
-
-// Main login handler
 export async function POST(request: NextRequest) {
-  console.log('[Admin Login] POST request received')
   try {
     const body = await request.json()
     
