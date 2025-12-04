@@ -68,8 +68,8 @@ export default function AdminLoginPage() {
     setLoading(true)
 
     try {
-      // Use unified login endpoint that works on both subdomains
-      const response = await fetch('/api/auth/login', {
+      // Use authenticate endpoint (avoiding 'login' in route name due to Vercel issues)
+      const response = await fetch('/api/auth/authenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
