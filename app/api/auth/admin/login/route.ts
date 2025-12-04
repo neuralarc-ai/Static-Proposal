@@ -11,7 +11,6 @@ import { generateToken, getTokenExpiration } from '@/lib/auth/jwt'
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
 
-// Mark route as dynamic to prevent static generation
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
@@ -23,7 +22,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    // Validate input
     const validation = loginSchema.safeParse(body)
     if (!validation.success) {
       const firstError = validation.error.issues[0]
@@ -38,10 +36,8 @@ export async function POST(request: NextRequest) {
 
     const { pin } = validation.data
 
-    // Get Supabase client
     const supabase = createSupabaseServerClient()
 
-    // Find all active admin users
     const { data: admins, error: adminsError } = await supabase
       .from('users')
       .select('id, email, name, role, pin_hash, status')
@@ -58,7 +54,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Try to find matching PIN
     let authenticatedUser: typeof admins[0] | null = null
 
     for (const admin of admins) {
@@ -81,30 +76,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Generate JWT token
     const token = generateToken(authenticatedUser.id, authenticatedUser.email, 'admin')
     const expiresIn = getTokenExpiration('admin')
 
-    // Create session in database
     const { error: sessionError } = await supabase.from('sessions').insert({
       user_id: authenticatedUser.id,
-      token_hash: await bcrypt.hash(token, 10), // Hash token for storage
+      token_hash: await bcrypt.hash(token, 10),
       expires_at: new Date(Date.now() + expiresIn * 1000).toISOString(),
       ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || null,
     })
 
     if (sessionError) {
       console.error('Error creating session:', sessionError)
-      // Continue anyway - token is still valid
     }
 
-    // Update last login
     await supabase
       .from('users')
       .update({ last_login_at: new Date().toISOString() })
       .eq('id', authenticatedUser.id)
 
-    // Log audit event
     await supabase.from('audit_logs').insert({
       user_id: authenticatedUser.id,
       action: 'login',
@@ -114,7 +104,6 @@ export async function POST(request: NextRequest) {
       ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || null,
     })
 
-    // Create response with user data (excluding sensitive info)
     const response = NextResponse.json(
       {
         success: true,
@@ -128,7 +117,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     )
 
-    // Set httpOnly cookie with token
     response.cookies.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -149,3 +137,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
