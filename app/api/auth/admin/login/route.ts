@@ -16,6 +16,9 @@ import { z } from 'zod'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+// Ensure this route is always treated as a serverless function on Vercel
+export const maxDuration = 30
+
 const loginSchema = z.object({
   pin: z.string().length(4, 'PIN must be exactly 4 digits').regex(/^\d{4}$/, 'PIN must contain only digits'),
 })
