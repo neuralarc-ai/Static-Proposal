@@ -143,8 +143,23 @@ export async function PUT(
 
     if (error) {
       console.error('Error updating partner:', error)
+      
+      // Provide more specific error messages
+      let errorMessage = 'Failed to update partner'
+      if (error.code === '23505') {
+        errorMessage = 'Email already exists'
+      } else if (error.code === '23502') {
+        errorMessage = 'Missing required field'
+      } else if (error.code === '23503') {
+        errorMessage = 'Invalid reference (foreign key constraint)'
+      } else if (error.code === '23514') {
+        errorMessage = 'Invalid data (check constraint violation)'
+      } else if (error.message) {
+        errorMessage = `Database error: ${error.message}`
+      }
+      
       return NextResponse.json(
-        { success: false, error: 'Failed to update partner' },
+        { success: false, error: errorMessage },
         { status: 500 }
       )
     }

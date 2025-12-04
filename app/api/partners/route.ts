@@ -137,6 +137,10 @@ export async function POST(request: NextRequest) {
         errorMessage = 'Email already exists'
       } else if (error.code === '23502') {
         errorMessage = 'Missing required field'
+      } else if (error.code === '23503') {
+        errorMessage = 'Invalid reference (foreign key constraint)'
+      } else if (error.code === '23514') {
+        errorMessage = 'Invalid data (check constraint violation)'
       } else if (error.message) {
         errorMessage = `Database error: ${error.message}`
       }

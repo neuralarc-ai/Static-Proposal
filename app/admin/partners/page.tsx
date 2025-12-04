@@ -93,12 +93,31 @@ export default function AdminPartnersPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const partnerData = {
+    const pinValue = formData.get('pin') as string
+    
+    // Validate PIN format if provided
+    if (pinValue && (!/^\d{4}$/.test(pinValue))) {
+      setError('PIN must be exactly 4 digits')
+      setSubmitting(false)
+      return
+    }
+    
+    const partnerData: {
+      name: string
+      email: string
+      company: string
+      pin?: string
+      status: 'active' | 'pending' | 'suspended'
+    } = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       company: formData.get('company') as string,
-      pin: formData.get('pin') as string,
       status: (formData.get('status') as 'active' | 'pending' | 'suspended') || 'active',
+    }
+    
+    // Only include PIN if provided (for editing, empty means don't update)
+    if (pinValue && pinValue.trim() !== '') {
+      partnerData.pin = pinValue
     }
 
     try {
@@ -122,7 +141,9 @@ export default function AdminPartnersPage() {
       const data = await response.json()
 
       if (!response.ok || !data.success) {
-        setError(data.error || `Failed to save partner${response.status ? ` (${response.status})` : ''}`)
+        const errorMessage = data.error || `Failed to save partner${response.status ? ` (${response.status})` : ''}`
+        console.error('Partner save error:', { status: response.status, data })
+        setError(errorMessage)
         return
       }
 
@@ -134,7 +155,8 @@ export default function AdminPartnersPage() {
       fetchPartners() // Refresh list
     } catch (err) {
       console.error('Error saving partner:', err)
-      setError('Failed to save partner')
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save partner'
+      setError(`Failed to save partner: ${errorMessage}`)
     } finally {
       setSubmitting(false)
     }

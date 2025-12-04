@@ -131,7 +131,7 @@ export default function PartnerLoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="flex gap-3 justify-center mb-8">
             {pin.map((digit, index) => (
               <input

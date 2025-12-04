@@ -15,10 +15,16 @@ export default function DashboardLayout({ children, role }: DashboardLayoutProps
   const { currentUser, setCurrentUser } = useAppStore()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  const [hasChecked, setHasChecked] = useState(false)
 
   useEffect(() => {
+    // Prevent multiple calls
+    if (hasChecked) return
+    
     async function checkAuth() {
       try {
+        setHasChecked(true)
+        
         // Check if we have a user in store
         if (currentUser && currentUser.role === role) {
           // Verify token is still valid by calling /api/auth/me

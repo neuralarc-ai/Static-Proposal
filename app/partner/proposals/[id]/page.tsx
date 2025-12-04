@@ -185,31 +185,45 @@ export default function ProposalViewPage() {
 
           {/* Project Scope */}
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Project Scope</h2>
-            <div className="space-y-2">
-              {proposal.content.projectScope.map((scope, idx) => (
-                <div key={idx} className="flex gap-3">
-                  <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="m-0 text-gray-700">{scope}</p>
-                  </div>
-                </div>
-              ))}
+            <h2 className="text-2xl font-secondary font-semibold mb-6 pb-2 border-b border-gray-200">Project Scope</h2>
+            
+            {/* Core Features */}
+            <div className="mb-6">
+              <h3 className="text-xl font-secondary font-semibold mb-4">Core Features</h3>
+              <div className="space-y-3">
+                {proposal.content.projectScope.map((scope, idx) => {
+                  // Handle both string and object formats
+                  const scopeText = typeof scope === 'string' ? scope : scope.title || scope
+                  const scopeDesc = typeof scope === 'object' && scope.description ? scope.description : ''
+                  
+                  return (
+                    <div key={idx} className="flex gap-3 items-start">
+                      <RiCheckLine className="w-5 h-5 text-mint flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="m-0 font-semibold text-gray-900">{scopeText}</p>
+                        {scopeDesc && (
+                          <p className="m-0 text-gray-600 text-sm mt-1">{scopeDesc}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </section>
 
           {/* Timeline */}
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-200">Project Timeline</h2>
-            <div className="space-y-4">
+            <h2 className="text-2xl font-secondary font-semibold mb-6 pb-2 border-b border-gray-200">Project Timeline</h2>
+            <div className="space-y-6">
               {proposal.content.timeline.map((phase, idx) => (
-                <div key={idx} className="flex gap-4">
-                  <div className="w-32 flex-shrink-0">
-                    <strong>{phase.period}</strong>
+                <div key={idx} className="border-l-4 border-primary pl-4 pb-4 last:pb-0">
+                  <div className="mb-2">
+                    <strong className="text-primary text-lg">{phase.period}</strong>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold mb-1">{phase.title}</h3>
-                    <p className="text-gray-600 text-sm m-0">{phase.description}</p>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{phase.title}</h3>
+                    <p className="text-gray-600 m-0 leading-relaxed">{phase.description}</p>
                   </div>
                 </div>
               ))}
