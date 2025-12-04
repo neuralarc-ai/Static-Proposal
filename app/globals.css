@@ -19,10 +19,15 @@
   
   /* Apply Sora to all headings - using Next.js font variable */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sora), 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-family: var(--font-sora), 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
     font-optical-sizing: auto;
     font-weight: 600;
     letter-spacing: -0.02em;
+  }
+  
+  /* Ensure font-secondary class uses Sora */
+  .font-secondary {
+    font-family: var(--font-sora), 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
   }
   
   /* Ensure buttons and inputs use primary font */
