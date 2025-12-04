@@ -195,7 +195,7 @@ export default function PartnerDashboardPage() {
           </div>
         </div>
 
-        <div className="flex flex-col h-[400px] border border-gray-200 rounded-2xl overflow-hidden">
+        <div className="flex flex-col h-[400px] border border-gray-200 rounded-xl overflow-hidden">
           <div className="flex-1 p-6 overflow-y-auto space-y-4">
             {chatMessages.map((msg, idx) => {
               if (msg.content === 'GENERATE_PROPOSAL_BUTTON') {

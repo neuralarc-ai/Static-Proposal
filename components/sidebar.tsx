@@ -153,7 +153,7 @@ export default function Sidebar({ role }: SidebarProps) {
               <button
                 key={item.label}
                 onClick={() => handleNavClick(item.href, item.onClick)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-all ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-all ${
                   item.active
                     ? 'bg-primary text-white'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -171,7 +171,7 @@ export default function Sidebar({ role }: SidebarProps) {
             {role === 'admin' ? 'Settings' : 'Support'}
           </div>
           <button
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-100 transition-all"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-1 text-gray-700 hover:bg-gray-100 transition-all"
           >
             <RiSettingsLine className="w-5 h-5" />
             <span className="font-medium">
@@ -180,7 +180,7 @@ export default function Sidebar({ role }: SidebarProps) {
           </button>
           {role === 'admin' && (
             <button
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 text-gray-700 hover:bg-gray-100 transition-all"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-1 text-gray-700 hover:bg-gray-100 transition-all"
             >
               <RiQuestionLine className="w-5 h-5" />
               <span className="font-medium">Help & Support</span>
@@ -192,7 +192,7 @@ export default function Sidebar({ role }: SidebarProps) {
       <div className="pt-6 border-t border-gray-200">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 transition-all"
         >
           <RiLogoutBoxLine className="w-5 h-5" />
           <span className="font-medium">Logout</span>

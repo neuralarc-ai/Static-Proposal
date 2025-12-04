@@ -111,7 +111,7 @@ export default function PartnerLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="bg-white border border-gray-200 rounded-3xl p-12 max-w-md w-full shadow-xl">
+      <div className="bg-white border border-gray-200 rounded-xl p-12 max-w-md w-full shadow-xl">
         <div className="text-center mb-12">
           <Image
             src="/Neural-light-logo.png"

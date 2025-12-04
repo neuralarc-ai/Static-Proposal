@@ -45,9 +45,9 @@
     --spacing-2xl: 4rem;
     
     /* Border Radius */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
+    --radius-sm: 24px;
+    --radius-md: 24px;
+    --radius-lg: 24px;
     --radius-xl: 24px;
     
     /* Shadows */
